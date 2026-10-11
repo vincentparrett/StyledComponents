@@ -3,8 +3,8 @@ object fmStyledButtons: TfmStyledButtons
   Top = 0
   ActiveControl = ShowEditButton
   Caption = 'Styled Buttons - Family/Class/Appearance'
-  ClientHeight = 691
-  ClientWidth = 895
+  ClientHeight = 700
+  ClientWidth = 900
   Color = clWindow
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object fmStyledButtons: TfmStyledButtons
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 895
+    Width = 900
     Height = 70
     Align = alTop
     ParentColor = True
@@ -101,12 +101,314 @@ object fmStyledButtons: TfmStyledButtons
   object PageControl: TPageControl
     Left = 0
     Top = 70
-    Width = 895
-    Height = 621
-    ActivePage = tsAngular
+    Width = 900
+    Height = 630
+    ActivePage = tsClassic
     Align = alClient
     Images = ImageList32
     TabOrder = 1
+    object tsClassic: TTabSheet
+      Caption = 'Classic Buttons (VCL Styled)'
+      ImageIndex = 21
+      object GroupBox3: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 892
+        Height = 193
+        Align = alTop
+        Caption = 'Standard Delphi Button compared to StyleButton'
+        TabOrder = 0
+        object StyledButton: TStyledButton
+          Left = 264
+          Top = 22
+          Width = 201
+          Height = 37
+          Hint = 
+            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
+            'eClient]'
+          Caption = 'TStyledButton (Application Styled)'
+          PopupMenu = PopupMenu
+          TabOrder = 1
+          OnClick = ButtonClick
+        end
+        object StyledButtonDisable: TStyledButton
+          Left = 264
+          Top = 65
+          Width = 201
+          Height = 37
+          Hint = 'Disabled Classic TStyledButton (Application Styled)'
+          Caption = 'Disabled TStyledButton'
+          Enabled = False
+          PopupMenu = PopupMenu
+          TabOrder = 3
+        end
+        object StyledButtonStyled: TStyledButton
+          Left = 264
+          Top = 108
+          Width = 201
+          Height = 37
+          Hint = 'Classic Button (Custom VCL Styled=Windows10 Blue)'
+          Caption = 'TStyledButton (Windows 10 Blue)'
+          PopupMenu = PopupMenu
+          TabOrder = 6
+          StyleElements = [seFont, seBorder]
+          OnClick = ButtonClick
+          StyleClass = 'Windows10 Blue'
+        end
+        object StyledButtonSplit: TStyledButton
+          Left = 264
+          Top = 151
+          Width = 201
+          Height = 37
+          Hint = 
+            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
+            'eClient]'
+          Caption = 'Styled "SplitButton"'
+          DropDownMenu = PopupMenu
+          PopupMenu = PopupMenu
+          Style = bsSplitButton
+          TabOrder = 7
+          OnClick = ButtonClick
+        end
+        object VCLButton: TButton
+          Left = 24
+          Top = 22
+          Width = 201
+          Height = 37
+          Hint = 'VCL TButton (use Global application VCL Style)'
+          Caption = 'TButton (Application Styled)'
+          Images = ImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          TabOrder = 0
+          OnClick = ButtonClick
+        end
+        object VCLButtonDisabled: TButton
+          Left = 24
+          Top = 65
+          Width = 201
+          Height = 37
+          Caption = 'Disabled TButton'
+          Enabled = False
+          Images = ImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          TabOrder = 2
+        end
+        object VCLButtonStyled: TButton
+          Left = 24
+          Top = 108
+          Width = 201
+          Height = 37
+          Hint = 
+            'VCL Button With StyleName is not supported in older Delphi versi' +
+            'ons)'
+          Caption = 'VCL Button (not supported)'
+          Images = ImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          TabOrder = 4
+          OnClick = ButtonClick
+        end
+        object ButtonSplit: TButton
+          Left = 24
+          Top = 151
+          Width = 201
+          Height = 37
+          Hint = 'VCL TButton (use Global application VCL Style)'
+          Caption = '"SplitButton"'
+          DropDownMenu = PopupMenu
+          Images = ImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          Style = bsSplitButton
+          TabOrder = 5
+          OnClick = ButtonClick
+        end
+      end
+      object gbClassicModalResult: TGroupBox
+        AlignWithMargins = True
+        Left = 3
+        Top = 196
+        Width = 886
+        Height = 59
+        Align = alTop
+        Caption = 'Buttons with ModalResult'
+        TabOrder = 1
+        object btn_ClassicOK: TStyledButton
+          AlignWithMargins = True
+          Left = 5
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Ok'
+          ModalResult = 1
+          TabOrder = 0
+          OnClick = ButtonClick
+        end
+        object btn_ClassicCancel: TStyledButton
+          AlignWithMargins = True
+          Left = 85
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Cancel'
+          ModalResult = 2
+          TabOrder = 1
+          OnClick = ButtonClick
+        end
+        object btn_ClassicAbort: TStyledButton
+          AlignWithMargins = True
+          Left = 165
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Abort'
+          ModalResult = 3
+          TabOrder = 2
+          OnClick = ButtonClick
+        end
+        object btn_ClassicRetry: TStyledButton
+          AlignWithMargins = True
+          Left = 245
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Retry'
+          ModalResult = 4
+          TabOrder = 3
+          OnClick = ButtonClick
+        end
+        object btn_ClassicIgnore: TStyledButton
+          AlignWithMargins = True
+          Left = 325
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Ignore'
+          ModalResult = 5
+          TabOrder = 4
+          OnClick = ButtonClick
+        end
+        object btn_ClassicYes: TStyledButton
+          AlignWithMargins = True
+          Left = 405
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Yes'
+          ModalResult = 6
+          TabOrder = 5
+          OnClick = ButtonClick
+        end
+        object btn_ClassicNo: TStyledButton
+          AlignWithMargins = True
+          Left = 485
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'No'
+          ModalResult = 7
+          TabOrder = 6
+          OnClick = ButtonClick
+        end
+        object btn_ClassicClose: TStyledButton
+          AlignWithMargins = True
+          Left = 565
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Close'
+          ModalResult = 8
+          TabOrder = 7
+          OnClick = ButtonClick
+        end
+        object btn_ClassicHelp: TStyledButton
+          AlignWithMargins = True
+          Left = 645
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Help'
+          ModalResult = 9
+          TabOrder = 8
+          OnClick = ButtonClick
+        end
+        object btn_ClassicAll: TStyledButton
+          AlignWithMargins = True
+          Left = 725
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'All'
+          ModalResult = 12
+          TabOrder = 9
+          OnClick = ButtonClick
+        end
+      end
+      object ClassicScrollBox: TScrollBox
+        Left = 0
+        Top = 258
+        Width = 892
+        Height = 327
+        Align = alClient
+        TabOrder = 2
+        object ClassicNormalGroupBox: TGroupBox
+          Left = 0
+          Top = 0
+          Width = 888
+          Height = 121
+          Align = alTop
+          Caption = 'Normal Classic Buttons (similar to VCL Styled Button)'
+          TabOrder = 0
+          object ClassicNormalFlowPanel: TFlowPanel
+            Left = 2
+            Top = 15
+            Width = 884
+            Height = 143
+            Align = alTop
+            AutoSize = True
+            BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
+            TabOrder = 0
+            OnResize = FlowPanelResize
+          end
+        end
+        object ClassicOutlineGroupBox: TGroupBox
+          Left = 0
+          Top = 121
+          Width = 888
+          Height = 130
+          Align = alTop
+          Caption = 'Outline Classic Buttons (inspired to VCL Styled Button)'
+          TabOrder = 1
+          object ClassicOutlineFlowPanel: TFlowPanel
+            Left = 2
+            Top = 15
+            Width = 884
+            Height = 143
+            Align = alTop
+            AutoSize = True
+            BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
+            TabOrder = 0
+            OnResize = FlowPanelResize
+          end
+        end
+      end
+    end
     object tsBootstrap: TTabSheet
       Caption = 'Bootstrap Buttons'
       ImageIndex = 20
@@ -127,7 +429,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Normal Buttons'
@@ -232,7 +534,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 68
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Outlined Buttons'
@@ -345,7 +647,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 133
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Disabled Buttons'
@@ -458,7 +760,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 198
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Buttons with ModalResult'
@@ -618,7 +920,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 59
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Basic Buttons'
@@ -692,7 +994,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 124
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Raised Buttons'
@@ -765,7 +1067,7 @@ object fmStyledButtons: TfmStyledButtons
       object AngularThemesPanel: TPanel
         Left = 0
         Top = 0
-        Width = 887
+        Width = 892
         Height = 56
         Align = alTop
         BevelOuter = bvNone
@@ -791,7 +1093,7 @@ object fmStyledButtons: TfmStyledButtons
           AlignWithMargins = True
           Left = 416
           Top = 3
-          Width = 468
+          Width = 473
           Height = 50
           Align = alClient
           Caption = 'Angular Dark Themes'
@@ -807,7 +1109,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 189
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Stroked Buttons'
@@ -881,7 +1183,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 254
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Flat Buttons'
@@ -950,7 +1252,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 319
-        Width = 881
+        Width = 886
         Height = 68
         Align = alTop
         Caption = 'Icon Buttons'
@@ -1077,7 +1379,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 393
-        Width = 881
+        Width = 886
         Height = 87
         Align = alTop
         Caption = 'FAB'
@@ -1155,7 +1457,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 486
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Buttons with ModalResult'
@@ -1293,304 +1595,542 @@ object fmStyledButtons: TfmStyledButtons
         end
       end
     end
-    object tsClassic: TTabSheet
-      Caption = 'Classic Buttons (VCL Styled)'
-      ImageIndex = 21
-      object GroupBox3: TGroupBox
+    object tsAngularM3: TTabSheet
+      Caption = 'Angular M3 Buttons'
+      ImageIndex = 24
+      object AngularM3ThemesPanel: TPanel
         Left = 0
         Top = 0
-        Width = 887
-        Height = 193
+        Width = 892
+        Height = 56
         Align = alTop
-        Caption = 'Standard Delphi Button compared to StyleButton'
+        BevelOuter = bvNone
         TabOrder = 0
-        object StyledButton: TStyledButton
-          Left = 264
-          Top = 22
-          Width = 201
-          Height = 37
-          Hint = 
-            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
-            'eClient]'
-          Caption = 'TStyledButton (Application Styled)'
-          PopupMenu = PopupMenu
-          TabOrder = 1
-          OnClick = ButtonClick
-        end
-        object StyledButtonDisable: TStyledButton
-          Left = 264
-          Top = 65
-          Width = 201
-          Height = 37
-          Hint = 'Disabled Classic TStyledButton (Application Styled)'
-          Caption = 'Disabled TStyledButton'
-          Enabled = False
-          PopupMenu = PopupMenu
-          TabOrder = 3
-        end
-        object StyledButtonStyled: TStyledButton
-          Left = 264
-          Top = 108
-          Width = 201
-          Height = 37
-          Hint = 'Classic Button (Custom VCL Styled=Windows10 Blue)'
-          Caption = 'TStyledButton (Windows 10 Blue)'
-          PopupMenu = PopupMenu
-          TabOrder = 6
-          StyleElements = [seFont, seBorder]
-          OnClick = ButtonClick
-          StyleClass = 'Windows10 Blue'
-        end
-        object StyledButtonSplit: TStyledButton
-          Left = 264
-          Top = 151
-          Width = 201
-          Height = 37
-          Hint = 
-            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
-            'eClient]'
-          Caption = 'Styled "SplitButton"'
-          DropDownMenu = PopupMenu
-          PopupMenu = PopupMenu
-          Style = bsSplitButton
-          TabOrder = 7
-          OnClick = ButtonClick
-        end
-        object VCLButton: TButton
-          Left = 24
-          Top = 22
-          Width = 201
-          Height = 37
-          Hint = 'VCL TButton (use Global application VCL Style)'
-          Caption = 'TButton (Application Styled)'
-          Images = ImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
+        object rgAngularM3Scheme: TRadioGroup
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 886
+          Height = 50
+          Align = alClient
+          Caption = 'Angular Material 3 colour scheme'
+          Columns = 2
+          ItemIndex = 0
+          Items.Strings = (
+            'Light'
+            'Dark')
           TabOrder = 0
-          OnClick = ButtonClick
-        end
-        object VCLButtonDisabled: TButton
-          Left = 24
-          Top = 65
-          Width = 201
-          Height = 37
-          Caption = 'Disabled TButton'
-          Enabled = False
-          Images = ImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
-          TabOrder = 2
-        end
-        object VCLButtonStyled: TButton
-          Left = 24
-          Top = 108
-          Width = 201
-          Height = 37
-          Hint = 
-            'VCL Button With StyleName is not supported in older Delphi versi' +
-            'ons)'
-          Caption = 'VCL Button (not supported)'
-          Images = ImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
-          TabOrder = 4
-          OnClick = ButtonClick
-        end
-        object ButtonSplit: TButton
-          Left = 24
-          Top = 151
-          Width = 201
-          Height = 37
-          Hint = 'VCL TButton (use Global application VCL Style)'
-          Caption = '"SplitButton"'
-          DropDownMenu = PopupMenu
-          Images = ImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
-          Style = bsSplitButton
-          TabOrder = 5
-          OnClick = ButtonClick
+          OnClick = rgAngularM3SchemeClick
         end
       end
-      object gbClassicModalResult: TGroupBox
-        AlignWithMargins = True
-        Left = 3
-        Top = 196
-        Width = 881
-        Height = 59
-        Align = alTop
-        Caption = 'Buttons with ModalResult'
-        TabOrder = 1
-        object btn_ClassicOK: TStyledButton
-          AlignWithMargins = True
-          Left = 5
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Ok'
-          ModalResult = 1
-          TabOrder = 0
-          OnClick = ButtonClick
-        end
-        object btn_ClassicCancel: TStyledButton
-          AlignWithMargins = True
-          Left = 85
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Cancel'
-          ModalResult = 2
-          TabOrder = 1
-          OnClick = ButtonClick
-        end
-        object btn_ClassicAbort: TStyledButton
-          AlignWithMargins = True
-          Left = 165
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Abort'
-          ModalResult = 3
-          TabOrder = 2
-          OnClick = ButtonClick
-        end
-        object btn_ClassicRetry: TStyledButton
-          AlignWithMargins = True
-          Left = 245
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Retry'
-          ModalResult = 4
-          TabOrder = 3
-          OnClick = ButtonClick
-        end
-        object btn_ClassicIgnore: TStyledButton
-          AlignWithMargins = True
-          Left = 325
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Ignore'
-          ModalResult = 5
-          TabOrder = 4
-          OnClick = ButtonClick
-        end
-        object btn_ClassicYes: TStyledButton
-          AlignWithMargins = True
-          Left = 405
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Yes'
-          ModalResult = 6
-          TabOrder = 5
-          OnClick = ButtonClick
-        end
-        object btn_ClassicNo: TStyledButton
-          AlignWithMargins = True
-          Left = 485
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'No'
-          ModalResult = 7
-          TabOrder = 6
-          OnClick = ButtonClick
-        end
-        object btn_ClassicClose: TStyledButton
-          AlignWithMargins = True
-          Left = 565
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Close'
-          ModalResult = 8
-          TabOrder = 7
-          OnClick = ButtonClick
-        end
-        object btn_ClassicHelp: TStyledButton
-          AlignWithMargins = True
-          Left = 645
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Help'
-          ModalResult = 9
-          TabOrder = 8
-          OnClick = ButtonClick
-        end
-        object btn_ClassicAll: TStyledButton
-          AlignWithMargins = True
-          Left = 725
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'All'
-          ModalResult = 12
-          TabOrder = 9
-          OnClick = ButtonClick
-        end
-      end
-      object ClassicScrollBox: TScrollBox
+      object M3ButtonsClientPanel: TPanel
         Left = 0
-        Top = 258
-        Width = 887
-        Height = 318
+        Top = 56
+        Width = 892
+        Height = 529
         Align = alClient
-        TabOrder = 2
-        object ClassicNormalGroupBox: TGroupBox
-          Left = 0
-          Top = 0
-          Width = 883
-          Height = 47
-          Align = alTop
-          Caption = 'Normal Classic Buttons (similar to VCL Styled Button)'
-          DoubleBuffered = False
-          ParentDoubleBuffered = False
+        TabOrder = 1
+        object M3ButtonsGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 432
+          Height = 456
+          Align = alLeft
+          Caption = 'Buttons'
           TabOrder = 0
-          object ClassicNormalFlowPanel: TFlowPanel
-            Left = 2
-            Top = 15
-            Width = 879
-            Height = 143
+          object gbM3Text: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 18
+            Width = 422
+            Height = 59
             Align = alTop
-            AutoSize = True
-            BevelOuter = bvNone
+            Caption = 'Text Buttons'
             TabOrder = 0
-            OnResize = FlowPanelResize
+            object btn_M3TextBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+            object btn_M3TextDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+          end
+          object gbM3Elevated: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 83
+            Width = 422
+            Height = 67
+            Align = alTop
+            Caption = 'Elevated Buttons'
+            TabOrder = 1
+            object btn_M3ElevatedBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 44
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Elevated'
+            end
+            object btn_M3ElevatedDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 44
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Elevated'
+            end
+          end
+          object gbM3Outlined: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 156
+            Width = 422
+            Height = 59
+            Align = alTop
+            Caption = 'Outlined Buttons'
+            TabOrder = 2
+            object btn_M3OutlinedBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Outlined'
+            end
+            object btn_M3OutlinedDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Outlined'
+            end
+          end
+          object gbM3Filled: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 221
+            Width = 422
+            Height = 59
+            Align = alTop
+            Caption = 'Filled Buttons'
+            TabOrder = 3
+            object btn_M3FilledBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+            end
+            object btn_M3FilledDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+            end
+          end
+          object gbM3Tonal: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 286
+            Width = 422
+            Height = 59
+            Align = alTop
+            Caption = 'Tonal Buttons'
+            TabOrder = 4
+            object btn_M3TonalBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Tonal'
+            end
+            object btn_M3TonalDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Tonal'
+            end
           end
         end
-        object ClassicOutlineGroupBox: TGroupBox
-          Left = 0
-          Top = 47
-          Width = 883
-          Height = 56
-          Align = alTop
-          Caption = 'Outline Classic Buttons (inspired to VCL Styled Button)'
-          DoubleBuffered = False
-          ParentDoubleBuffered = False
+        object M3FABGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 442
+          Top = 3
+          Width = 446
+          Height = 456
+          Align = alClient
+          Caption = 'Icons and FAB'
           TabOrder = 1
-          object ClassicOutlineFlowPanel: TFlowPanel
-            Left = 2
-            Top = 15
-            Width = 879
-            Height = 143
+          object gbM3Icon: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 18
+            Width = 436
+            Height = 68
             Align = alTop
-            AutoSize = True
-            BevelOuter = bvNone
+            Caption = 'Icon Buttons'
             TabOrder = 0
-            OnResize = FlowPanelResize
+            object btn_M3IconStandard: TStyledButton
+              Tag = 18
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 18
+              Images = ImageList32
+              NotificationBadge.CustomText = '!'
+              TabOrder = 0
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+            object btn_M3IconFilled: TStyledButton
+              Tag = -10
+              AlignWithMargins = True
+              Left = 56
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 9
+              Images = ImageList32
+              NotificationBadge.Color = clFuchsia
+              NotificationBadge.NotificationCount = 100
+              TabOrder = 1
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+            end
+            object btn_M3IconTonal: TStyledButton
+              Tag = 12
+              AlignWithMargins = True
+              Left = 107
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 12
+              Images = ImageList32
+              NotificationBadge.NotificationCount = 5
+              NotificationBadge.Size = nbsSmallDot
+              TabOrder = 2
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Tonal'
+            end
+            object btn_M3IconOutlined: TStyledButton
+              Tag = 14
+              AlignWithMargins = True
+              Left = 158
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 14
+              Images = ImageList32
+              NotificationBadge.Color = clTeal
+              NotificationBadge.NotificationCount = 5
+              TabOrder = 3
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Outlined'
+            end
+            object btn_M3IconDisabled: TStyledButton
+              Tag = 18
+              AlignWithMargins = True
+              Left = 209
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              Enabled = False
+              ImageAlignment = iaCenter
+              ImageIndex = 18
+              Images = ImageList32
+              TabOrder = 4
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+          end
+          object gbM3FAB: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 92
+            Width = 436
+            Height = 68
+            Align = alTop
+            Caption = 'FAB'
+            TabOrder = 1
+            object btn_M3FABStandard: TStyledButton
+              Tag = 14
+              AlignWithMargins = True
+              Left = 21
+              Top = 14
+              Width = 48
+              Height = 48
+              ImageAlignment = iaCenter
+              ImageIndex = 14
+              Images = ImageList32
+              TabOrder = 0
+              StyleRadius = 16
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+            object btn_M3FABMini: TStyledButton
+              Tag = 18
+              AlignWithMargins = True
+              Left = 75
+              Top = 14
+              Width = 40
+              Height = 40
+              ImageAlignment = iaCenter
+              ImageIndex = 18
+              Images = ImageList32
+              TabOrder = 1
+              StyleRadius = 12
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+            object btn_M3FABExtended: TStyledButton
+              AlignWithMargins = True
+              Left = 129
+              Top = 14
+              Width = 120
+              Height = 48
+              Caption = 'Extended'
+              ImageIndex = 8
+              Images = ImageList32
+              TabOrder = 2
+              StyleRadius = 16
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+            object btn_M3FABDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 260
+              Top = 14
+              Width = 48
+              Height = 48
+              Enabled = False
+              ImageAlignment = iaCenter
+              ImageIndex = 8
+              Images = ImageList32
+              TabOrder = 3
+              StyleRadius = 16
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+          end
+        end
+        object gbM3ModalResult: TGroupBox
+          AlignWithMargins = True
+          Left = 4
+          Top = 466
+          Width = 884
+          Height = 59
+          Align = alBottom
+          Caption = 'Buttons with ModalResult'
+          TabOrder = 2
+          object btn_M3OK: TStyledButton
+            AlignWithMargins = True
+            Left = 5
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Ok'
+            ModalResult = 1
+            TabOrder = 0
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Cancel: TStyledButton
+            AlignWithMargins = True
+            Left = 85
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Cancel'
+            ModalResult = 2
+            TabOrder = 1
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Abort: TStyledButton
+            AlignWithMargins = True
+            Left = 165
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Abort'
+            ModalResult = 3
+            TabOrder = 2
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Retry: TStyledButton
+            AlignWithMargins = True
+            Left = 245
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Retry'
+            ModalResult = 4
+            TabOrder = 3
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Ignore: TStyledButton
+            AlignWithMargins = True
+            Left = 325
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Ignore'
+            ModalResult = 5
+            TabOrder = 4
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Yes: TStyledButton
+            AlignWithMargins = True
+            Left = 405
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Yes'
+            ModalResult = 6
+            TabOrder = 5
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3No: TStyledButton
+            AlignWithMargins = True
+            Left = 485
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'No'
+            ModalResult = 7
+            TabOrder = 6
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Close: TStyledButton
+            AlignWithMargins = True
+            Left = 565
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Close'
+            ModalResult = 8
+            TabOrder = 7
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Help: TStyledButton
+            AlignWithMargins = True
+            Left = 645
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Help'
+            ModalResult = 9
+            TabOrder = 8
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3All: TStyledButton
+            AlignWithMargins = True
+            Left = 725
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'All'
+            ModalResult = 12
+            TabOrder = 9
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
           end
         end
       end
@@ -1602,8 +2142,8 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 881
-        Height = 570
+        Width = 886
+        Height = 579
         Align = alClient
         BevelOuter = bvNone
         BorderStyle = bsNone
@@ -1613,21 +2153,21 @@ object fmStyledButtons: TfmStyledButtons
         object GroupBoxNormal: TGroupBox
           Left = 0
           Top = 0
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Normal Buttons'
-          DoubleBuffered = False
-          ParentDoubleBuffered = False
           TabOrder = 0
           object FlowPanelNormal: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
             BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
             TabOrder = 0
             OnResize = FlowPanelResize
           end
@@ -1635,21 +2175,21 @@ object fmStyledButtons: TfmStyledButtons
         object GroupBoxOutline: TGroupBox
           Left = 0
           Top = 185
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Outline Buttons'
-          DoubleBuffered = False
-          ParentDoubleBuffered = False
           TabOrder = 1
           object FlowPanelOutLine: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
             BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
             TabOrder = 0
             OnResize = FlowPanelResize
           end
@@ -1663,8 +2203,8 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 881
-        Height = 570
+        Width = 886
+        Height = 579
         Align = alClient
         BevelOuter = bvNone
         BorderStyle = bsNone
@@ -1673,21 +2213,21 @@ object fmStyledButtons: TfmStyledButtons
         object SvgColorNormalGroupBox: TGroupBox
           Left = 0
           Top = 0
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Normal Buttons'
-          DoubleBuffered = False
-          ParentDoubleBuffered = False
           TabOrder = 0
           object SvgColorNormalFlowPanel: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
             BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
             TabOrder = 0
             OnResize = FlowPanelResize
           end
@@ -1695,21 +2235,21 @@ object fmStyledButtons: TfmStyledButtons
         object SvgColorOutlineGroupBox: TGroupBox
           Left = 0
           Top = 185
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Outline Buttons'
-          DoubleBuffered = False
-          ParentDoubleBuffered = False
           TabOrder = 1
           object SvgColorOutlineFlowPanel: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
             BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
             TabOrder = 0
             OnResize = FlowPanelResize
           end
@@ -1766,7 +2306,7 @@ object fmStyledButtons: TfmStyledButtons
     Left = 460
     Top = 542
     Bitmap = {
-      494C01011800B000A80020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01011900B000B00020002000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       000000000000360000002800000080000000E0000000010020000000000000C0
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1785,6 +2325,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000010000
+      0004000000000000000004010A35340B95C6330B93C503010A34000000000000
+      0000000000040000000100000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1798,6 +2341,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000003000000000000
+      0000010002191D074E905313E5F65914FAFF5913FAFF5310E6F61D054F900100
+      0219000000000000000000000003000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1811,6 +2357,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000071305
+      31724D13CEEA6019FFFF5A16F1FF5814EBFD5913ECFD5B12F2FF6212FFFF4F0E
+      CFEA130330710000000700000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1824,6 +2373,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000001000000080A0218504211A5D1661B
+      FFFF6119F3FF5A16E7FB5D16ECFE5F15EFFF5F14EFFF5E12EDFE5D11E7FB6212
+      F4FF6912FFFF4509A3D10A011750000000080000000100000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1837,6 +2389,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000030000000006010E3D6A1CFFFF651BF7FF6019
+      E8FC611AECFE6218EFFF6217EFFF6216EFFF6213EFFF6312EFFF6412EFFF6312
+      EBFE6411E6FC6B11F4FF7111FCFF06010D3C0000000000000003000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1850,6 +2405,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000100000001000000084814ABD8651AEFFB6218
+      E8FB631AEBFD6219EAFD6218EAFD6418EAFD6416EAFD6514E9FD6613E9FD6712
+      E8FD6711E4FB6D11EAFB4E0CA5D7000000080000000100000001000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1863,6 +2421,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000400000000170633767720FFFF6D1B
+      F4FF6E1BF8FF6F1BF8FF6F1AF8FF6F1AF8FF6F1AF8FF7018F6FF7116F6FF7215
+      F5FF7314F0FF7F15FFFF18043175000000000000000400000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1876,6 +2437,10 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000100000000000000000000000000000002000000000100021947139BCC4C13
+      A7D44B12A4D34D13A5D44C12A5D44B11A5D44C11A5D44E11A5D44F0FA3D44F0E
+      A1D3510EA3D44C0D96CC01000218000000000000000200000000000000000000
+      0000000000010000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1903,7 +2468,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000000401082F0301
+      0627000000010000000200000000000000000000000000000001000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000001000000000000000000000000000000020000
+      0001040005270501072F00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1915,6 +2484,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000000F041D592D0D
+      5A9D000000000000000300000000000000000000000000000000000000000000
+      0000000000030000000400000004000000040000000400000004000000040000
+      0003000000000000000000000000000000000000000000000000000000030000
+      00003C084F9D1302195800000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1926,7 +2500,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000000F041D587A24
+      EBF9010001120000000100000001000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000002000000010100
+      01139F16D0F91303185700000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1938,6 +2516,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000001205225F942B
+      FFFF1D0836780000000000000004000000000000000000000000000000010000
+      00000E0319531605286615052565160526661605266616042565170527660E03
+      1852000000000000000100000000000000000000000000000004000000002405
+      3079BD1CF1FF17031C5E00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1949,6 +2532,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000001A083172912A
+      FDFE681DBEE20000010C00000001000000010000000000000000000000040000
+      00002E0B50939D25FFFF9121FBFF9521FEFF9620FCFF941FF7FFA320FFFF2F09
+      4C920000000000000004000000000000000000000001000000010000010D8413
+      A8E3BA1BE4FE2205287100000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1960,6 +2548,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000240A41848F2A
+      FFFF8F2AFFFF1706296900000000000000040000000000000000000000020000
+      00000200031D841EDEF48A20E7FA8A1EE4FA8B1EE3FA8D1DE3FA891BD7F40200
+      031D0000000000000002000000000000000000000004000000001D04256AB41B
+      E0FFB91BDDFF2F07368300000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1971,6 +2564,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000000000002E0D5093952B
+      FFFF8E29F5FE661DB1DA00000006000000010000000100000000000000000000
+      000300000000441070AF9C24FDFF9020E6FB911FE4FBA122F9FF470F6CAE0000
+      00000000000300000000000000000000000100000001000000067E139DDBB11C
+      D6FEBF1DE0FF3B09449200000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1982,6 +2580,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000391062A2972B
+      FFFF8626E5F8982BFFFF11051C57000000000000000400000000000000000000
+      0003000000010C0312479F24F9FF9721E7FD9720E5FDA222F5FF0B0211450000
+      0001000000030000000000000000000000040000000015031A58BB1FE5FFA81A
+      C8F8C41EDFFF4A0B52A100000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1993,6 +2596,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000471376B29C2B
+      FFFF8C25E8F9992AFBFE5E189BCC000000010000000200000000000000000000
+      000000000001000000046E19A8D7A225F2FFA324F1FF7018A3D6000000040000
+      0001000000000000000000000000000000020000000172148BCDBC21DEFEAE1C
+      C8F9C620DDFF5B0E63B100000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2004,6 +2612,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000055178AC09F2B
+      FFFF9227EDFC9426EFFD9F2AFDFF0C0312460000000000000003000000000000
+      0000000000040000000021083073AA27F8FFAC26F8FF21072F72000000000000
+      0004000000000000000000000003000000000E021147BE22E3FFB420D1FDB71F
+      CEFCC822DBFF6C1273BF00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2015,6 +2628,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000641B9ECDA12C
+      FFFF9928EFFD9727EDFCA62BFEFF551684BC0000000000000002000000000000
+      00000000000200000000010002179A24DDF69A23DAF501000216000000000000
+      000100000000000000000000000200000000641277BDC222E3FFB71FD0FCBA20
+      CFFDCA22DAFF7D1483CC00000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2026,6 +2644,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000004731FB3DAA52D
+      FFFF9E29F1FDA02AF4FF9E28F0FDA62BF7FE07020B3600000001000000030000
+      0000000000000000000300000000541374B3531372B200000000000000030000
+      000000000000000000030000000109020A37C024E2FFBA21D5FDC022D6FFC021
+      D0FDCD22D8FF901794D900000004000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2037,6 +2660,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000010E8223C6E5A62D
+      FDFFA02BF3FEA22BF5FF9F29EBFBB02DFFFF4A126CAB00000000000000030000
+      00000000000000000003000000010B020E3F0A020E3E00000001000000030000
+      0000000000000000000300000000551064ACCB26E9FFBC23D2FBC523D6FFC322
+      D0FECE23D6FFA21BA3E40100010D000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2048,6 +2676,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000010002188D25D7EEA72D
+      FBFFA32CF3FEA62CF5FFA72CF4FFA82BF2FEA629EDFA04010628000000010000
+      0002000000000000000000000000000000000000000000000000000000000000
+      0000000000020000000105010628BB25D9FAC127D9FEC526D8FFC726D6FFC624
+      D1FED025D4FFB31FB2ED02000217000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2059,6 +2692,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000030105259928E1F4A62C
+      F2FCA82DF4FEAB2DF6FFAD2DF5FFA72BEDFBBA30FFFF3E105799000000000000
+      0003000000000000000000000000000000010000000100000000000000000000
+      00000000000300000000460E519AD12BEDFFC026D3FBC728D8FFCA27D6FFCB26
+      D1FECD25CEFCBF22BAF304010424000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2070,6 +2708,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000006020931B331FFFFB632
+      FFFFAA2EF1FDAA2DF0FCAF2EF6FFAE2EF2FEB12EF4FEA529E0F40201031B0000
+      0001000000020000000000000000000000000000000000000000000000000000
+      0002000000010201031CB725CFF4C728DEFEC828D8FECC28D8FFC826D0FCCC27
+      CEFDDE2ADBFFDD29D6FF08010730000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2081,6 +2724,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000915061E596E1D
+      99C7B832FFFFBA32FFFFAF2FF2FEAE2DEDFCAD2CEAFBC431FFFF330D43870000
+      0000000000040000000000000000000000000000000000000000000000000000
+      000400000000390C4088D92CF1FFC527D5FBC726D4FCCB28D5FEDA2AE2FFDD2A
+      DEFF851982C71A05195900000009000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2093,6 +2741,10 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      00000F0415495D197FB6BB31FAFFC432FFFFB82FF3FFB72EEDFA9F28CEEB0100
+      0111000000010000000100000000000000000000000000000000000000010000
+      000101000112AF24C2EBCA28DCFACE29DEFFDD2BE9FFD72ADDFF6E1470B61203
+      1249000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2104,6 +2756,11 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000030000
+      000100000000000000000A020D3A51156AA6B72EEEFAC733FFFFCF34FFFF2509
+      2F71000000000000000400000000000000000000000000000000000000040000
+      000029082D72E12FF8FFDC2DEEFFCE28D9FA5B115EA50B020B39000000000000
+      0000000000010000000300000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2116,6 +2773,10 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
+      0000000000030000000200000000000000000501072A3E104F90AD2BD6EBAA29
+      D2EC0100010D0000000100000001000000000000000000000001000000010100
+      010EB627C8EDBB26CBEB440E4990060106290000000000000000000000020000
+      0003000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2128,130 +2789,9 @@ object fmStyledButtons: TfmStyledButtons
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
-      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000030000000300000000000000000301031E4812
+      589817051B560000000000000003000000000000000000000003000000001805
+      1A564D1054980301031E00000000000000000000000300000003000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -1,8 +1,15 @@
-﻿# Delphi VCL StyledComponents [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+﻿# Delphi VCL StyledComponents
+
+<!-- badges -->
+[![License: Apache](https://img.shields.io/badge/License-Apache%202.0-green.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/EtheaDev/StyledComponents?label=release&color=blue)](https://github.com/EtheaDev/SvgIconImageList/releases)
+[![Delphi XE3+](https://img.shields.io/badge/Delphi-XE6%2B-e62329.svg)](https://www.embarcadero.com/products/delphi)
+[![Platform: VCL](https://img.shields.io/badge/Platform-VCL-8a2be2.svg)](https://docwiki.embarcadero.com/RADStudio/en/Main_Page)
+[![Windows 10 and 11](https://img.shields.io/badge/Windows-10%20%7C%2011-0078d6.svg)](https://www.microsoft.com/windows)
 
 ## Components similar to Delphi VCL Buttons, Panels, Toolbar, DbNavigator, BindNavigator, ButtonGroup and CategoryButtons with Custom Graphic Styles, and an advanced, full-customizable TaskDialog, also with animations!
 
-### Actual official version: 4.3.1
+### Actual official version: 4.4.0
 
 ---
 ## Setup for Installation of Components
@@ -134,8 +141,10 @@ To simplify use of the Styled Buttons and Panels, there is a useful "Component E
 ***List of available StyleFamily***
 - **Classic**: a collection of Styles similar to [VCLStyled TButton](https://docwiki.embarcadero.com/RADStudio/Athens/en/Tutorial:_Using_TControl.StyleElements_in_VCL_Applications)
 - **Bootstrap**: a collection of Styles similar to [Bootstrap buttons](https://getbootstrap.com/docs/4.0/components/buttons/)
-- **Angular-Light**: a collection of styles similar to [Angular buttons](https://material.angular.io/components/button/overview)
-- **Angular-Dark**: a collection of styles similar to [Angular buttons](https://material.angular.io/components/button/overview)
+- **Angular-Light**: a collection of styles similar to the Material 2 [Angular buttons](https://material.angular.io/components/button/overview) (Flat, Raised, Basic, Stroked), light theme
+- **Angular-Dark**: the same Material 2 styles, dark theme
+- **Angular-M3-Light**: the buttons of the current Angular Material 3 (Text, Elevated, Outlined, Filled, Tonal), light colour scheme, as in the [Angular Material button page](https://material.angular.dev/components/button/overview)
+- **Angular-M3-Dark**: the same Angular Material 3 buttons, dark colour scheme
 - **Basic-Color**: a collection of styles based to Delphi "normal" and "System" [Color collection](https://docwiki.embarcadero.com/RADStudio/Alexandria/en/Color_Constants)
 - **SVG-Color**: a collection of styles based to Delphi "AlphaColors" [Color collection](https://johndecember.com/html/spec/colorsvghex.html)
 
@@ -161,7 +170,7 @@ You can also use a Family/Class/Appearance of any type, for example:
 ```Pascal
 TStyledButton.RegisterDefaultRenderingStyle(btRoundRect, BOOTSTRAP_FAMILY, btn_primary, BOOTSTRAP_NORMAL);
 ```
-You can also use [Interposer Unit (Vcl.StyledComponentsHooks.pas)](https://github.com/EtheaDev/StyledComponents/wiki/Interposer-Unit-(Vcl.StyledComponentsHooks)) to easily change all Buttons of your application.
+You can also use [Interposer Unit (Vcl.StyledComponentsHooks.pas)](https://ethea.it/docs/styledcomponents/Interposer-Unit-(Vcl.StyledComponentsHooks)) to easily change all Buttons of your application.
 
 ***Template unit to create your custom Family Styles***
 
@@ -382,6 +391,18 @@ It also contains performance benchmarks (`StyledPerfTests`) that count heap allo
 Run `Test\run_tests.cmd [Win32|Win64] [Debug|Release]`: it builds the project and writes a NUnit XML report in `Test\Bin\<Platform>\<Config>`.
 
 ### RELEASE NOTES
+11 Oct 2026 - version 4.4.0
+- New: the Angular Material 3 families **Angular-M3-Light** and **Angular-M3-Dark** (as in the current Angular Material button page): appearances Text, Elevated, Outlined, Filled and Tonal, a single class Basic, "full corner" (btRounded) shape by default, colours of the azure palette and the hover/focus/pressed/disabled states of Material 3; FAB, Mini FAB and Extended FAB are Tonal buttons with btRoundRect, the Icon button is a Text button with btEllipse. In a Styled TaskDialog the buttons are Filled/Outlined/Text according to their ModalResult
+- New: the Elevated appearance of Angular-M3 has a soft shadow (2 pixels, 3 on hover, none when disabled) seen only below the button (the top and the sides are unchanged) and drawn inside the area of the control: the face of the button is shorter by the size of the shadow, so the control does not grow. The new property StyleShadowSize (-1 = the shadow of the style family) is available on all the buttons, panels, toolbars, navigators, button groups and category buttons: a value of 0 or more gives the same shadow in every state on any family
+- New: the **Fab** appearance of Angular-M3 (tonal container with the shadow of the Floating Action Button: 3 pixels, 4 on hover); the FABs of the demo use it
+- Component Editor: the pages (families) are always in the same order (Classic, Bootstrap, Angular-Light, Angular-Dark, Angular-M3-Light, Angular-M3-Dark, Basic-Colors, SVG-Colors, then the custom families) and every page has its own icon
+- Fixed StyledToolbar with Wrapable and AutoSize: the size now follows the buttons wrapped on more rows (ControlsHeight/ControlsWidth use the bottom/right edge of the visible controls)
+- Fixed TStyledTaskDialog: the dialog no longer depends on the form that called it (when that form was destroyed while the dialog was modal the dialog was destroyed with it and freed twice) and it opens on the monitor of the calling form, centered on it
+- Installer: the "ReadMe" entry in the Start menu group, and Vcl.TemplateButtonStyles.pas (the template to create custom style families) is now installed
+- Demo: new tab "Angular M3 Buttons" in the Styled Buttons page (light/dark colour scheme, all the appearances, icon buttons, FAB and ModalResult buttons); new Help button (F1) in the toolbar that opens the online documentation page of the demo that is open
+- New PowerShell scripts to build from the command line all the packages (packages\BuildAllPackages<Delphi version>.ps1) and the demo (Demos\BuildDemo<Delphi version>.ps1, BuildAllDemos.ps1) for every Delphi version from XE6 to Delphi 13
+- Documentation: every component now has a page with examples and a complete reference of properties, methods and events (also the animated components and TStyledToolButton, TStyledPanel, TStyledSpeedButton, TStyledBitBtn, TStyledGraphicButton, TStyledBindNavigator), new page about the Angular Material 3 families; the links to the old wiki now point to the online documentation. The test suite now has 106 tests
+
 2 Oct 2026 - version 4.3.1
 - Fixed StyledPanel of the Classic family keeping the colours of the previous style: choosing Bootstrap, Angular or any other family for a panel that was Classic (typically from the Component Editor) left it grey in the designer, and ButtonColor was streamed into the DFM as if customized
 - Added the published property StyleName to TStyledPanel (Delphi 10.4+), for compatibility with TPanel: a per-control VCL style name can now be set in the Object Inspector and also selects the Classic family and that style

@@ -182,9 +182,9 @@ object frmMain: TfrmMain
     end
     object SettingsToolBar: TStyledToolbar
       AlignWithMargins = True
-      Left = 926
+      Left = 886
       Top = 2
-      Width = 131
+      Width = 171
       Height = 40
       Margins.Left = 2
       Margins.Top = 2
@@ -195,23 +195,28 @@ object frmMain: TfrmMain
       ButtonWidth = 40
       Indent = 2
       TabOrder = 0
-      object AboutToolButton: TStyledToolButton
+      object HelpToolButton: TStyledToolButton
         Left = 0
+        Top = 0
+        Action = acHelp
+      end
+      object AboutToolButton: TStyledToolButton
+        Left = 40
         Top = 0
         Action = acAbout
       end
       object QuitToolButton: TStyledToolButton
-        Left = 40
+        Left = 80
         Top = 0
         Action = acQuit
       end
       object SepToolButton: TStyledToolButton
-        Left = 80
+        Left = 120
         Top = 0
         Style = tbsSeparator
       end
       object ColorSettingsToolButton: TStyledToolButton
-        Left = 86
+        Left = 126
         Top = 0
         Action = actSettings
       end
@@ -496,6 +501,14 @@ object frmMain: TfrmMain
       Hint = 'About this Demo...'
       ImageIndex = 43
       OnExecute = acAboutExecute
+    end
+    object acHelp: TAction
+      Category = 'Help'
+      Caption = 'Help'
+      Hint = 'Open the online documentation of this page'
+      ImageIndex = 49
+      ShortCut = 112
+      OnExecute = acHelpExecute
     end
     object actSettings: TAction
       Category = 'Settings'

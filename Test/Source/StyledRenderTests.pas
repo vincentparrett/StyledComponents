@@ -18,6 +18,10 @@ uses
   DUnitX.TestFramework,
   Vcl.ButtonStylesAttributes,
   Vcl.StandardButtonStyles,
+  Vcl.Forms,
+  Vcl.Controls,
+  Vcl.AngularButtonStyles,
+  Vcl.StyledButton,
   StyledTestUtils;
 
 const
@@ -57,6 +61,64 @@ type
     [TestCase('PenWidth3', '3')]
     [TestCase('PenWidth6', '6')]
     procedure Badge_IsAPill_WhateverThePenWidth(const APenWidth: Integer);
+  end;
+
+  [TestFixture]
+  TAngularM3Tests = class
+  private
+    procedure Resolve(const AFamily, AClass, AAppearance: string;
+      out N, P, S, H, D: TStyledButtonAttributes);
+  public
+    /// <summary>Colours of the azure palette (Angular Material 3 light scheme).</summary>
+    [Test]
+    procedure Light_Filled_UsesTheAzurePrimary;
+    /// <summary>Colours of the azure palette (Angular Material 3 dark scheme).</summary>
+    [Test]
+    procedure Dark_Filled_UsesTheAzurePrimary;
+    /// <summary>Every M3 button is a "full corner" pill, in both schemes and every appearance.</summary>
+    [Test]
+    [TestCase('Light', 'Angular-M3-Light')]
+    [TestCase('Dark', 'Angular-M3-Dark')]
+    procedure EveryAppearance_IsRounded(const AFamily: string);
+    /// <summary>Hot, Pressed and Disabled must be visibly different from Normal.</summary>
+    [Test]
+    [TestCase('Light', 'Angular-M3-Light')]
+    [TestCase('Dark', 'Angular-M3-Dark')]
+    procedure EveryAppearance_StatesDifferFromNormal(const AFamily: string);
+    /// <summary>State layers of Angular Material 3: hover 8%, pressed (layer + ripple) about 22%, so Pressed is clearly darker than Hot.</summary>
+    [Test]
+    [TestCase('Light', 'Angular-M3-Light')]
+    [TestCase('Dark', 'Angular-M3-Dark')]
+    procedure Pressed_IsClearlyStrongerThanHot(const AFamily: string);
+    /// <summary>Only Outlined has a border: the Elevated button has a shadow instead.</summary>
+    [Test]
+    procedure OnlyOutlined_HasABorder;
+    /// <summary>Elevated has a shadow (bigger when Hot, none when Disabled), the other appearances do not.</summary>
+    [Test]
+    [TestCase('Light', 'Angular-M3-Light')]
+    [TestCase('Dark', 'Angular-M3-Dark')]
+    procedure Elevated_HasAShadow_OthersDoNot(const AFamily: string);
+    /// <summary>The shadow is drawn inside the area of the control, around the face of the button.</summary>
+    [Test]
+    procedure Elevated_PaintsTheShadowInsideTheControl;
+    /// <summary>StyleShadowSize: default is "from the family" (-1) and is not stored.</summary>
+    [Test]
+    procedure StyleShadowSize_Default_IsTheFamilyAndNotStored;
+    /// <summary>StyleShadowSize on a Classic button paints a shadow inside the control and is streamed and assigned.</summary>
+    [Test]
+    procedure StyleShadowSize_OnAClassicButton_PaintsStreamsAndAssigns;
+    /// <summary>StyleShadowSize = 0 removes the shadow of Elevated; values below -1 are refused.</summary>
+    [Test]
+    procedure StyleShadowSizeZero_RemovesTheShadowOfElevated;
+    /// <summary>Without a shadow the face reaches the edge of the control, as before.</summary>
+    [Test]
+    procedure Filled_FaceReachesTheEdgeOfTheControl;
+    /// <summary>A single class: Basic (Link and Disabled of the page are not different buttons).</summary>
+    [Test]
+    procedure Classes_IsOnlyBasic;
+    /// <summary>A button of the family is a pill by default, painted as a pill.</summary>
+    [Test]
+    procedure Button_DefaultsToRoundedAndPaintsAPill;
   end;
 
   [TestFixture]
@@ -217,6 +279,367 @@ begin
         LBadgeW, LBadgeH, X, Y, TStyledTestUtils.ColorText(ColorToRGB(TStyledTestUtils.PixelAt(LBitmap, X, Y)))]));
   finally
     LBitmap.Free;
+  end;
+end;
+
+{ TAngularM3Tests }
+
+procedure TAngularM3Tests.Resolve(const AFamily, AClass, AAppearance: string;
+  out N, P, S, H, D: TStyledButtonAttributes);
+var
+  LClass, LAppearance: string;
+begin
+  TStyledTestUtils.NewAttributes(N, P, S, H, D);
+  LClass := AClass;
+  LAppearance := AAppearance;
+  StyleFamilyUpdateAttributes(AFamily, LClass, LAppearance, N, P, S, H, D);
+  Assert.AreEqual(AClass, LClass, 'class kept');
+  Assert.AreEqual(AAppearance, LAppearance, 'appearance kept');
+end;
+
+procedure TAngularM3Tests.Light_Filled_UsesTheAzurePrimary;
+var
+  N, P, S, H, D: TStyledButtonAttributes;
+begin
+  Resolve(ANGULAR_M3_LIGHT_FAMILY, btn_Basic, FilledAttr, N, P, S, H, D);
+  try
+    Assert.AreEqual(Integer($BB5C00), Integer(ColorToRGB(N.ButtonColor)), 'Filled container = primary (#005CBB)');
+    Assert.AreEqual(Integer($FFFFFF), Integer(ColorToRGB(N.FontColor)), 'Filled label = on-primary');
+  finally
+    TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+  end;
+end;
+
+procedure TAngularM3Tests.Dark_Filled_UsesTheAzurePrimary;
+var
+  N, P, S, H, D: TStyledButtonAttributes;
+begin
+  Resolve(ANGULAR_M3_DARK_FAMILY, btn_Basic, FilledAttr, N, P, S, H, D);
+  try
+    Assert.AreEqual(Integer($FFC7AB), Integer(ColorToRGB(N.ButtonColor)), 'Filled container = primary (#ABC7FF)');
+    Assert.AreEqual(Integer($652F00), Integer(ColorToRGB(N.FontColor)), 'Filled label = on-primary (#002F65)');
+  finally
+    TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+  end;
+end;
+
+procedure TAngularM3Tests.EveryAppearance_IsRounded(const AFamily: string);
+var
+  LAppearance: string;
+  N, P, S, H, D: TStyledButtonAttributes;
+begin
+  for LAppearance in GetButtonFamilyAppearances(AFamily) do
+  begin
+    Resolve(AFamily, btn_Basic, LAppearance, N, P, S, H, D);
+    try
+      Assert.AreEqual(Ord(btRounded), Ord(N.DrawType), AFamily + '/' + LAppearance);
+    finally
+      TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    end;
+  end;
+end;
+
+procedure TAngularM3Tests.EveryAppearance_StatesDifferFromNormal(const AFamily: string);
+var
+  LAppearance: string;
+  N, P, S, H, D: TStyledButtonAttributes;
+
+  function Differs(const A, B: TStyledButtonAttributes): Boolean;
+  begin
+    Result := (ColorToRGB(A.ButtonColor) <> ColorToRGB(B.ButtonColor)) or
+      (ColorToRGB(A.FontColor) <> ColorToRGB(B.FontColor)) or
+      (A.ButtonDrawStyle <> B.ButtonDrawStyle) or
+      (ColorToRGB(A.BorderColor) <> ColorToRGB(B.BorderColor));
+  end;
+
+begin
+  for LAppearance in GetButtonFamilyAppearances(AFamily) do
+  begin
+    Resolve(AFamily, btn_Basic, LAppearance, N, P, S, H, D);
+    try
+      Assert.IsTrue(Differs(H, N), AFamily + '/' + LAppearance + ': Hot looks like Normal');
+      Assert.IsTrue(Differs(P, N), AFamily + '/' + LAppearance + ': Pressed looks like Normal');
+      Assert.IsTrue(Differs(D, N), AFamily + '/' + LAppearance + ': Disabled looks like Normal');
+    finally
+      TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    end;
+  end;
+end;
+
+procedure TAngularM3Tests.Pressed_IsClearlyStrongerThanHot(const AFamily: string);
+var
+  LAppearance: string;
+  N, P, S, H, D: TStyledButtonAttributes;
+
+  function Distance(const A, B: TColor): Integer;
+  begin
+    Result := Abs(GetRValue(ColorToRGB(A)) - GetRValue(ColorToRGB(B))) +
+      Abs(GetGValue(ColorToRGB(A)) - GetGValue(ColorToRGB(B))) +
+      Abs(GetBValue(ColorToRGB(A)) - GetBValue(ColorToRGB(B)));
+  end;
+
+begin
+  for LAppearance in GetButtonFamilyAppearances(AFamily) do
+  begin
+    Resolve(AFamily, btn_Basic, LAppearance, N, P, S, H, D);
+    try
+      Assert.IsTrue(Distance(P.ButtonColor, N.ButtonColor) > Distance(H.ButtonColor, N.ButtonColor) * 2,
+        AFamily + '/' + LAppearance + ': Pressed must be much stronger than Hot');
+      Assert.IsTrue(Distance(P.ButtonColor, N.ButtonColor) > Distance(S.ButtonColor, N.ButtonColor),
+        AFamily + '/' + LAppearance + ': Pressed stronger than Focus');
+    finally
+      TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    end;
+  end;
+end;
+
+procedure TAngularM3Tests.OnlyOutlined_HasABorder;
+var
+  LAppearance: string;
+  N, P, S, H, D: TStyledButtonAttributes;
+begin
+  for LAppearance in GetButtonFamilyAppearances(ANGULAR_M3_LIGHT_FAMILY) do
+  begin
+    Resolve(ANGULAR_M3_LIGHT_FAMILY, btn_Basic, LAppearance, N, P, S, H, D);
+    try
+      if SameText(LAppearance, OutlinedAttr) then
+      begin
+        Assert.AreEqual(Ord(brdSolid), Ord(N.BorderDrawStyle), LAppearance + ' border');
+        Assert.AreEqual(1, N.BorderWidth, LAppearance + ' border width');
+      end
+      else
+        Assert.AreEqual(Ord(brdClear), Ord(N.BorderDrawStyle), LAppearance + ' has no border');
+    finally
+      TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    end;
+  end;
+end;
+
+procedure TAngularM3Tests.Elevated_HasAShadow_OthersDoNot(const AFamily: string);
+var
+  LAppearance: string;
+  N, P, S, H, D: TStyledButtonAttributes;
+begin
+  for LAppearance in GetButtonFamilyAppearances(AFamily) do
+  begin
+    Resolve(AFamily, btn_Basic, LAppearance, N, P, S, H, D);
+    try
+      if SameText(LAppearance, ElevatedAttr) or SameText(LAppearance, FabAttr) then
+      begin
+        Assert.IsTrue(N.ShadowSize > 0, 'Normal has a shadow');
+        Assert.IsTrue(H.ShadowSize > N.ShadowSize, 'Hot: higher elevation, bigger shadow');
+        Assert.IsTrue(P.ShadowSize <= H.ShadowSize, 'Pressed does not exceed Hot');
+        Assert.IsTrue(S.ShadowSize > 0, 'Selected (focus) has a shadow');
+        Assert.AreEqual(0, D.ShadowSize, 'Disabled is flat');
+      end
+      else
+      begin
+        Assert.AreEqual(0, N.ShadowSize, AFamily + '/' + LAppearance + ' Normal');
+        Assert.AreEqual(0, H.ShadowSize, AFamily + '/' + LAppearance + ' Hot');
+      end;
+    finally
+      TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    end;
+  end;
+end;
+
+procedure TAngularM3Tests.StyleShadowSize_Default_IsTheFamilyAndNotStored;
+var
+  LForm: TForm;
+  LButton: TStyledButton;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LButton := TStyledButton.CreateStyled(LForm, ANGULAR_M3_LIGHT_FAMILY, btn_Basic, ElevatedAttr);
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LButton.StyleShadowSize, 'default = from the family');
+    Assert.AreEqual(-1, DEFAULT_SHADOW_SIZE);
+    Assert.IsTrue(Pos('StyleShadowSize', TStyledTestUtils.DfmText(LButton)) = 0,
+      'the default is not streamed');
+    //the family value is the one in the state attributes
+    Assert.IsTrue(LButton.ButtonStyleNormal.ShadowSize > 0, 'Elevated: shadow from the family');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TAngularM3Tests.StyleShadowSize_OnAClassicButton_PaintsStreamsAndAssigns;
+var
+  LForm: TForm;
+  LButton, LCopy, LOther: TStyledButton;
+  LBitmap: TBitmap;
+  Y, LBelow: Integer;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LButton := TStyledButton.CreateStyled(LForm, DEFAULT_CLASSIC_FAMILY, DEFAULT_WINDOWS_CLASS, DEFAULT_APPEARANCE);
+    LButton.Parent := LForm;
+    LButton.SetBounds(0, 0, 200, 60);
+    LButton.StyleShadowSize := 4;
+    Assert.AreEqual(4, LButton.StyleShadowSize);
+    LBitmap := TStyledTestUtils.PaintWinControl(LButton);
+    try
+      LBelow := 0;
+      for Y := 40 to 59 do
+        if (GetRValue(ColorToRGB(TStyledTestUtils.PixelAt(LBitmap, 100, Y))) < 250) and
+          (GetRValue(ColorToRGB(TStyledTestUtils.PixelAt(LBitmap, 100, Y))) > 150) then
+          Inc(LBelow);
+      Assert.IsTrue(LBelow >= 2, Format('shadow rows below the face: %d', [LBelow]));
+      //the control is not reduced at the top: the border starts at the first row
+      Assert.IsTrue(TStyledTestUtils.PixelAt(LBitmap, 100, 0) <> clPureWhite, 'first row: the face');
+    finally
+      LBitmap.Free;
+    end;
+    //streamed
+    Assert.IsTrue(Pos('StyleShadowSize = 4', TStyledTestUtils.DfmText(LButton)) > 0, 'stored when not default');
+    LCopy := TStyledTestUtils.StreamRoundTrip(LButton, TStyledButton, LForm) as TStyledButton;
+    Assert.AreEqual(4, LCopy.StyleShadowSize, 'survives streaming');
+    //assigned
+    LOther := TStyledButton.Create(LForm);
+    LOther.Assign(LButton);
+    Assert.AreEqual(4, LOther.StyleShadowSize, 'copied by Assign');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TAngularM3Tests.StyleShadowSizeZero_RemovesTheShadowOfElevated;
+var
+  LForm: TForm;
+  LButton: TStyledButton;
+  LBitmap: TBitmap;
+  LRaised: Boolean;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LButton := TStyledButton.CreateStyled(LForm, ANGULAR_M3_LIGHT_FAMILY, btn_Basic, ElevatedAttr);
+    LButton.Parent := LForm;
+    LButton.SetBounds(0, 0, 200, 60);
+    LButton.StyleShadowSize := 0;
+    Assert.AreEqual(0, LButton.StyleShadowSize);
+    LBitmap := TStyledTestUtils.PaintWinControl(LButton);
+    try
+      //no shadow: the face reaches the edge of the control
+      TStyledTestUtils.AssertPixel(LBitmap, 100, 57, $FDF9FA, 'face reaches the bottom edge');
+    finally
+      LBitmap.Free;
+    end;
+    LRaised := False;
+    try
+      LButton.StyleShadowSize := -2;
+    except
+      on EReadError do LRaised := True;
+    end;
+    Assert.IsTrue(LRaised, 'values below -1 are refused like StyleRadius <= 0');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TAngularM3Tests.Elevated_PaintsTheShadowInsideTheControl;
+var
+  LForm: TForm;
+  LButton: TStyledButton;
+  LBitmap: TBitmap;
+  X, Y, LBelow, LAbove, LLeft: Integer;
+
+  function IsShadow(const AColor: TColor): Boolean;
+  begin
+    //darker than the (white) parent, but neither the face ($F4) nor black
+    Result := (GetRValue(ColorToRGB(AColor)) < 240) and
+      (GetRValue(ColorToRGB(AColor)) > 150);
+  end;
+
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LButton := TStyledButton.CreateStyled(LForm, ANGULAR_M3_LIGHT_FAMILY, btn_Basic, ElevatedAttr);
+    LButton.Parent := LForm;
+    LButton.SetBounds(0, 0, 200, 60);
+    LBitmap := TStyledTestUtils.PaintWinControl(LButton);
+    try
+      //the face is a pill: it reaches the top and the sides of the control
+      TStyledTestUtils.AssertPixel(LBitmap, 100, 30, $FDF9FA, 'face = container of the elevated button');
+      LBelow := 0;
+      LAbove := 0;
+      LLeft := 0;
+      for Y := 40 to 59 do
+        if IsShadow(TStyledTestUtils.PixelAt(LBitmap, 100, Y)) then
+          Inc(LBelow);
+      for Y := 0 to 39 do
+        if IsShadow(TStyledTestUtils.PixelAt(LBitmap, 100, Y)) then
+          Inc(LAbove);
+      for X := 0 to 14 do
+        if IsShadow(TStyledTestUtils.PixelAt(LBitmap, X, 20)) then
+          Inc(LLeft);
+      Assert.IsTrue(LBelow >= 2, Format('shadow rows below the face: %d', [LBelow]));
+      Assert.AreEqual(0, LAbove, 'the shadow is seen only below: nothing above the face');
+      Assert.AreEqual(0, LLeft, 'the shadow is seen only below: nothing at the sides');
+      //the last rows of the control are the shadow
+      Assert.IsTrue(IsShadow(TStyledTestUtils.PixelAt(LBitmap, 100, 59)), 'last row: shadow');
+    finally
+      LBitmap.Free;
+    end;
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TAngularM3Tests.Filled_FaceReachesTheEdgeOfTheControl;
+var
+  LForm: TForm;
+  LButton: TStyledButton;
+  LBitmap: TBitmap;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LButton := TStyledButton.CreateStyled(LForm, ANGULAR_M3_LIGHT_FAMILY, btn_Basic, FilledAttr);
+    LButton.Parent := LForm;
+    LButton.SetBounds(0, 0, 200, 60);
+    LBitmap := TStyledTestUtils.PaintWinControl(LButton);
+    try
+      TStyledTestUtils.AssertPixel(LBitmap, 100, 56, $BB5C00, 'Filled face down to the bottom edge');
+      TStyledTestUtils.AssertPixel(LBitmap, 100, 3, $BB5C00, 'and up to the top edge');
+    finally
+      LBitmap.Free;
+    end;
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TAngularM3Tests.Classes_IsOnlyBasic;
+var
+  LClasses: TButtonClasses;
+begin
+  //Basic/Link/Disabled of the documentation page are one button (button, anchor,
+  //disabled): there is a single class
+  LClasses := GetButtonFamilyClasses(ANGULAR_M3_LIGHT_FAMILY);
+  Assert.AreEqual(1, Integer(Length(LClasses)), 'number of classes (light)');
+  Assert.AreEqual(btn_Basic, LClasses[0]);
+  Assert.AreEqual(1, Integer(Length(GetButtonFamilyClasses(ANGULAR_M3_DARK_FAMILY))), 'number of classes (dark)');
+end;
+
+procedure TAngularM3Tests.Button_DefaultsToRoundedAndPaintsAPill;
+var
+  LForm: TForm;
+  LButton: TStyledButton;
+  LBitmap: TBitmap;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LButton := TStyledButton.CreateStyled(LForm, ANGULAR_M3_LIGHT_FAMILY, btn_Basic, FilledAttr);
+    LButton.Parent := LForm;
+    LButton.SetBounds(0, 0, 200, 60);
+    Assert.AreEqual(Ord(btRounded), Ord(LButton.StyleDrawType), 'default shape');
+    LBitmap := TStyledTestUtils.PaintWinControl(LButton);
+    try
+      TStyledTestUtils.AssertPixel(LBitmap, 100, 12, $BB5C00, 'Filled body = primary');
+      TStyledTestUtils.AssertPixel(LBitmap, 6, 6, clPureWhite, 'outside the pill corner');
+    finally
+      LBitmap.Free;
+    end;
+  finally
+    LForm.Free;
   end;
 end;
 
@@ -434,6 +857,7 @@ end;
 initialization
   TDUnitX.RegisterTestFixture(TShapeDrawingTests);
   TDUnitX.RegisterTestFixture(TBadgeDrawingTests);
+  TDUnitX.RegisterTestFixture(TAngularM3Tests);
   TDUnitX.RegisterTestFixture(TStyleFamilyRegistryTests);
   TDUnitX.RegisterTestFixture(TStyleFamilyContractTests);
 

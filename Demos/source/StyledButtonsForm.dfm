@@ -3,8 +3,8 @@ object fmStyledButtons: TfmStyledButtons
   Top = 0
   ActiveControl = ShowEditButton
   Caption = 'Styled Buttons - Family/Class/Appearance'
-  ClientHeight = 691
-  ClientWidth = 895
+  ClientHeight = 700
+  ClientWidth = 900
   Color = clWindow
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object fmStyledButtons: TfmStyledButtons
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 895
+    Width = 900
     Height = 70
     Align = alTop
     ParentColor = True
@@ -37,7 +37,6 @@ object fmStyledButtons: TfmStyledButtons
       Font.Height = -16
       Font.Name = 'Arial'
       Font.Style = []
-      ImageName = 'Basic-Color'
       Images = VirtualImageList32
       ParentFont = False
       PopupMenu = PopupMenu
@@ -104,12 +103,313 @@ object fmStyledButtons: TfmStyledButtons
   object PageControl: TPageControl
     Left = 0
     Top = 70
-    Width = 895
-    Height = 621
-    ActivePage = tsAngular
+    Width = 900
+    Height = 630
+    ActivePage = tsClassic
     Align = alClient
     Images = VirtualImageList32
     TabOrder = 1
+    object tsClassic: TTabSheet
+      Caption = 'Classic Buttons (VCL Styled)'
+      ImageIndex = 21
+      ImageName = 'Delphi-Logo'
+      object GroupBox3: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 892
+        Height = 193
+        Align = alTop
+        Caption = 'Standard Delphi Button compared to StyleButton'
+        TabOrder = 0
+        object StyledButton: TStyledButton
+          Left = 264
+          Top = 22
+          Width = 201
+          Height = 37
+          Hint = 
+            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
+            'eClient]'
+          Caption = 'TStyledButton (Application Styled)'
+          PopupMenu = PopupMenu
+          TabOrder = 1
+          OnClick = ButtonClick
+        end
+        object StyledButtonDisable: TStyledButton
+          Left = 264
+          Top = 65
+          Width = 201
+          Height = 37
+          Hint = 'Disabled Classic TStyledButton (Application Styled)'
+          Caption = 'Disabled TStyledButton'
+          Enabled = False
+          PopupMenu = PopupMenu
+          TabOrder = 3
+        end
+        object StyledButtonStyled: TStyledButton
+          Left = 264
+          Top = 108
+          Width = 201
+          Height = 37
+          Hint = 'Classic Button (Custom VCL Styled=Windows10 Blue)'
+          Caption = 'TStyledButton (Windows 10 Blue)'
+          PopupMenu = PopupMenu
+          TabOrder = 6
+          StyleElements = [seFont, seBorder]
+          OnClick = ButtonClick
+          StyleClass = 'Windows10 Blue'
+        end
+        object StyledButtonSplit: TStyledButton
+          Left = 264
+          Top = 151
+          Width = 201
+          Height = 37
+          Hint = 
+            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
+            'eClient]'
+          Caption = 'Styled "SplitButton"'
+          DropDownMenu = PopupMenu
+          PopupMenu = PopupMenu
+          Style = bsSplitButton
+          TabOrder = 7
+          OnClick = ButtonClick
+        end
+        object VCLButton: TButton
+          Left = 24
+          Top = 22
+          Width = 201
+          Height = 37
+          Hint = 'VCL TButton (use Global application VCL Style)'
+          Caption = 'TButton (Application Styled)'
+          Images = VirtualImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          TabOrder = 0
+          OnClick = ButtonClick
+        end
+        object VCLButtonDisabled: TButton
+          Left = 24
+          Top = 65
+          Width = 201
+          Height = 37
+          Caption = 'Disabled TButton'
+          Enabled = False
+          Images = VirtualImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          TabOrder = 2
+        end
+        object VCLButtonStyled: TButton
+          Left = 24
+          Top = 108
+          Width = 201
+          Height = 37
+          Hint = 'VCL Button With StyleName=Windows10 Blue)'
+          Caption = 'VCL Button (Windows10 Blue)'
+          Images = VirtualImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          TabOrder = 4
+          OnClick = ButtonClick
+        end
+        object ButtonSplit: TButton
+          Left = 24
+          Top = 151
+          Width = 201
+          Height = 37
+          Hint = 'VCL TButton (use Global application VCL Style)'
+          Caption = '"SplitButton"'
+          DropDownMenu = PopupMenu
+          Images = VirtualImageList32
+          ModalResult = 1
+          PopupMenu = PopupMenu
+          Style = bsSplitButton
+          TabOrder = 5
+          OnClick = ButtonClick
+        end
+      end
+      object gbClassicModalResult: TGroupBox
+        AlignWithMargins = True
+        Left = 3
+        Top = 196
+        Width = 886
+        Height = 59
+        Align = alTop
+        Caption = 'Buttons with ModalResult'
+        TabOrder = 1
+        object btn_ClassicOK: TStyledButton
+          AlignWithMargins = True
+          Left = 5
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Ok'
+          ModalResult = 1
+          TabOrder = 0
+          OnClick = ButtonClick
+        end
+        object btn_ClassicCancel: TStyledButton
+          AlignWithMargins = True
+          Left = 85
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Cancel'
+          ModalResult = 2
+          TabOrder = 1
+          OnClick = ButtonClick
+        end
+        object btn_ClassicAbort: TStyledButton
+          AlignWithMargins = True
+          Left = 165
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Abort'
+          ModalResult = 3
+          TabOrder = 2
+          OnClick = ButtonClick
+        end
+        object btn_ClassicRetry: TStyledButton
+          AlignWithMargins = True
+          Left = 245
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Retry'
+          ModalResult = 4
+          TabOrder = 3
+          OnClick = ButtonClick
+        end
+        object btn_ClassicIgnore: TStyledButton
+          AlignWithMargins = True
+          Left = 325
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Ignore'
+          ModalResult = 5
+          TabOrder = 4
+          OnClick = ButtonClick
+        end
+        object btn_ClassicYes: TStyledButton
+          AlignWithMargins = True
+          Left = 405
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Yes'
+          ModalResult = 6
+          TabOrder = 5
+          OnClick = ButtonClick
+        end
+        object btn_ClassicNo: TStyledButton
+          AlignWithMargins = True
+          Left = 485
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'No'
+          ModalResult = 7
+          TabOrder = 6
+          OnClick = ButtonClick
+        end
+        object btn_ClassicClose: TStyledButton
+          AlignWithMargins = True
+          Left = 565
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Close'
+          ModalResult = 8
+          TabOrder = 7
+          OnClick = ButtonClick
+        end
+        object btn_ClassicHelp: TStyledButton
+          AlignWithMargins = True
+          Left = 645
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'Help'
+          ModalResult = 9
+          TabOrder = 8
+          OnClick = ButtonClick
+        end
+        object btn_ClassicAll: TStyledButton
+          AlignWithMargins = True
+          Left = 725
+          Top = 18
+          Width = 74
+          Height = 36
+          Align = alLeft
+          Caption = 'All'
+          ModalResult = 12
+          TabOrder = 9
+          OnClick = ButtonClick
+        end
+      end
+      object ClassicScrollBox: TScrollBox
+        Left = 0
+        Top = 258
+        Width = 892
+        Height = 327
+        Align = alClient
+        TabOrder = 2
+        object ClassicNormalGroupBox: TGroupBox
+          Left = 0
+          Top = 0
+          Width = 888
+          Height = 121
+          Align = alTop
+          Caption = 'Normal Classic Buttons (similar to VCL Styled Button)'
+          TabOrder = 0
+          object ClassicNormalFlowPanel: TFlowPanel
+            Left = 2
+            Top = 15
+            Width = 884
+            Height = 143
+            Align = alTop
+            AutoSize = True
+            BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
+            TabOrder = 0
+            OnResize = FlowPanelResize
+          end
+        end
+        object ClassicOutlineGroupBox: TGroupBox
+          Left = 0
+          Top = 121
+          Width = 888
+          Height = 130
+          Align = alTop
+          Caption = 'Outline Classic Buttons (inspired to VCL Styled Button)'
+          TabOrder = 1
+          object ClassicOutlineFlowPanel: TFlowPanel
+            Left = 2
+            Top = 15
+            Width = 884
+            Height = 143
+            Align = alTop
+            AutoSize = True
+            BevelOuter = bvNone
+            ParentBackground = False
+            ParentColor = True
+            TabOrder = 0
+            OnResize = FlowPanelResize
+          end
+        end
+      end
+    end
     object tsBootstrap: TTabSheet
       Caption = 'Bootstrap Buttons'
       ImageIndex = 20
@@ -131,7 +431,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Normal Buttons'
@@ -236,7 +536,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 68
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Outlined Buttons'
@@ -349,7 +649,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 133
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Disabled Buttons'
@@ -462,7 +762,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 198
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Buttons with ModalResult'
@@ -623,7 +923,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 59
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Basic Buttons'
@@ -697,7 +997,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 124
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Raised Buttons'
@@ -770,7 +1070,7 @@ object fmStyledButtons: TfmStyledButtons
       object AngularThemesPanel: TPanel
         Left = 0
         Top = 0
-        Width = 887
+        Width = 892
         Height = 56
         Align = alTop
         BevelOuter = bvNone
@@ -796,7 +1096,7 @@ object fmStyledButtons: TfmStyledButtons
           AlignWithMargins = True
           Left = 416
           Top = 3
-          Width = 468
+          Width = 473
           Height = 50
           Align = alClient
           Caption = 'Angular Dark Themes'
@@ -812,7 +1112,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 189
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Stroked Buttons'
@@ -886,7 +1186,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 254
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Flat Buttons'
@@ -955,7 +1255,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 319
-        Width = 881
+        Width = 886
         Height = 68
         Align = alTop
         Caption = 'Icon Buttons'
@@ -1088,7 +1388,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 393
-        Width = 881
+        Width = 886
         Height = 87
         Align = alTop
         Caption = 'FAB'
@@ -1170,7 +1470,7 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 486
-        Width = 881
+        Width = 886
         Height = 59
         Align = alTop
         Caption = 'Buttons with ModalResult'
@@ -1308,303 +1608,552 @@ object fmStyledButtons: TfmStyledButtons
         end
       end
     end
-    object tsClassic: TTabSheet
-      Caption = 'Classic Buttons (VCL Styled)'
-      ImageIndex = 21
-      ImageName = 'Delphi-Logo'
-      object GroupBox3: TGroupBox
+    object tsAngularM3: TTabSheet
+      Caption = 'Angular M3 Buttons'
+      ImageIndex = 24
+      ImageName = 'Angular-M3-logo'
+      object AngularM3ThemesPanel: TPanel
         Left = 0
         Top = 0
-        Width = 887
-        Height = 193
+        Width = 892
+        Height = 56
         Align = alTop
-        Caption = 'Standard Delphi Button compared to StyleButton'
+        BevelOuter = bvNone
         TabOrder = 0
-        object StyledButton: TStyledButton
-          Left = 264
-          Top = 22
-          Width = 201
-          Height = 37
-          Hint = 
-            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
-            'eClient]'
-          Caption = 'TStyledButton (Application Styled)'
-          PopupMenu = PopupMenu
-          TabOrder = 1
-          OnClick = ButtonClick
-        end
-        object StyledButtonDisable: TStyledButton
-          Left = 264
-          Top = 65
-          Width = 201
-          Height = 37
-          Hint = 'Disabled Classic TStyledButton (Application Styled)'
-          Caption = 'Disabled TStyledButton'
-          Enabled = False
-          PopupMenu = PopupMenu
-          TabOrder = 3
-        end
-        object StyledButtonStyled: TStyledButton
-          Left = 264
-          Top = 108
-          Width = 201
-          Height = 37
-          Hint = 'Classic Button (Custom VCL Styled=Windows10 Blue)'
-          Caption = 'TStyledButton (Windows 10 Blue)'
-          PopupMenu = PopupMenu
-          TabOrder = 6
-          StyleElements = [seFont, seBorder]
-          OnClick = ButtonClick
-          StyleClass = 'Windows10 Blue'
-        end
-        object StyledButtonSplit: TStyledButton
-          Left = 264
-          Top = 151
-          Width = 201
-          Height = 37
-          Hint = 
-            'Classic TStyledButton (VCL Styled) with StyleElements: [seFont,s' +
-            'eClient]'
-          Caption = 'Styled "SplitButton"'
-          DropDownMenu = PopupMenu
-          PopupMenu = PopupMenu
-          Style = bsSplitButton
-          TabOrder = 7
-          OnClick = ButtonClick
-        end
-        object VCLButton: TButton
-          Left = 24
-          Top = 22
-          Width = 201
-          Height = 37
-          Hint = 'VCL TButton (use Global application VCL Style)'
-          Caption = 'TButton (Application Styled)'
-          Images = VirtualImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
+        object rgAngularM3Scheme: TRadioGroup
+          AlignWithMargins = True
+          Left = 3
+          Top = 3
+          Width = 886
+          Height = 50
+          Align = alClient
+          Caption = 'Angular Material 3 colour scheme'
+          Columns = 2
+          ItemIndex = 0
+          Items.Strings = (
+            'Light'
+            'Dark')
           TabOrder = 0
-          OnClick = ButtonClick
-        end
-        object VCLButtonDisabled: TButton
-          Left = 24
-          Top = 65
-          Width = 201
-          Height = 37
-          Caption = 'Disabled TButton'
-          Enabled = False
-          Images = VirtualImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
-          TabOrder = 2
-        end
-        object VCLButtonStyled: TButton
-          Left = 24
-          Top = 108
-          Width = 201
-          Height = 37
-          Hint = 'VCL Button With StyleName=Windows10 Blue)'
-          Caption = 'VCL Button (Windows10 Blue)'
-          Images = VirtualImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
-          TabOrder = 4
-          OnClick = ButtonClick
-        end
-        object ButtonSplit: TButton
-          Left = 24
-          Top = 151
-          Width = 201
-          Height = 37
-          Hint = 'VCL TButton (use Global application VCL Style)'
-          Caption = '"SplitButton"'
-          DropDownMenu = PopupMenu
-          Images = VirtualImageList32
-          ModalResult = 1
-          PopupMenu = PopupMenu
-          Style = bsSplitButton
-          TabOrder = 5
-          OnClick = ButtonClick
+          OnClick = rgAngularM3SchemeClick
         end
       end
-      object gbClassicModalResult: TGroupBox
-        AlignWithMargins = True
-        Left = 3
-        Top = 196
-        Width = 881
-        Height = 59
-        Align = alTop
-        Caption = 'Buttons with ModalResult'
-        TabOrder = 1
-        object btn_ClassicOK: TStyledButton
-          AlignWithMargins = True
-          Left = 5
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Ok'
-          ModalResult = 1
-          TabOrder = 0
-          OnClick = ButtonClick
-        end
-        object btn_ClassicCancel: TStyledButton
-          AlignWithMargins = True
-          Left = 85
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Cancel'
-          ModalResult = 2
-          TabOrder = 1
-          OnClick = ButtonClick
-        end
-        object btn_ClassicAbort: TStyledButton
-          AlignWithMargins = True
-          Left = 165
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Abort'
-          ModalResult = 3
-          TabOrder = 2
-          OnClick = ButtonClick
-        end
-        object btn_ClassicRetry: TStyledButton
-          AlignWithMargins = True
-          Left = 245
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Retry'
-          ModalResult = 4
-          TabOrder = 3
-          OnClick = ButtonClick
-        end
-        object btn_ClassicIgnore: TStyledButton
-          AlignWithMargins = True
-          Left = 325
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Ignore'
-          ModalResult = 5
-          TabOrder = 4
-          OnClick = ButtonClick
-        end
-        object btn_ClassicYes: TStyledButton
-          AlignWithMargins = True
-          Left = 405
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Yes'
-          ModalResult = 6
-          TabOrder = 5
-          OnClick = ButtonClick
-        end
-        object btn_ClassicNo: TStyledButton
-          AlignWithMargins = True
-          Left = 485
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'No'
-          ModalResult = 7
-          TabOrder = 6
-          OnClick = ButtonClick
-        end
-        object btn_ClassicClose: TStyledButton
-          AlignWithMargins = True
-          Left = 565
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Close'
-          ModalResult = 8
-          TabOrder = 7
-          OnClick = ButtonClick
-        end
-        object btn_ClassicHelp: TStyledButton
-          AlignWithMargins = True
-          Left = 645
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'Help'
-          ModalResult = 9
-          TabOrder = 8
-          OnClick = ButtonClick
-        end
-        object btn_ClassicAll: TStyledButton
-          AlignWithMargins = True
-          Left = 725
-          Top = 18
-          Width = 74
-          Height = 36
-          Align = alLeft
-          Caption = 'All'
-          ModalResult = 12
-          TabOrder = 9
-          OnClick = ButtonClick
-        end
-      end
-      object ClassicScrollBox: TScrollBox
+      object M3ButtonsClientPanel: TPanel
         Left = 0
-        Top = 258
-        Width = 887
-        Height = 318
+        Top = 56
+        Width = 892
+        Height = 529
         Align = alClient
-        TabOrder = 2
-        object ClassicNormalGroupBox: TGroupBox
-          Left = 0
-          Top = 0
-          Width = 883
-          Height = 121
-          Align = alTop
-          Caption = 'Normal Classic Buttons (similar to VCL Styled Button)'
+        TabOrder = 1
+        object M3ButtonsGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 4
+          Top = 4
+          Width = 432
+          Height = 456
+          Align = alLeft
+          Caption = 'Buttons'
           TabOrder = 0
-          object ClassicNormalFlowPanel: TFlowPanel
-            Left = 2
-            Top = 15
-            Width = 879
-            Height = 143
+          object gbM3Text: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 18
+            Width = 422
+            Height = 59
             Align = alTop
-            AutoSize = True
-            BevelOuter = bvNone
-            ParentBackground = False
-            ParentColor = True
+            Caption = 'Text Buttons'
             TabOrder = 0
-            OnResize = FlowPanelResize
+            object btn_M3TextBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+            object btn_M3TextDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+          end
+          object gbM3Elevated: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 83
+            Width = 422
+            Height = 67
+            Align = alTop
+            Caption = 'Elevated Buttons'
+            TabOrder = 1
+            object btn_M3ElevatedBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 44
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Elevated'
+            end
+            object btn_M3ElevatedDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 44
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Elevated'
+            end
+          end
+          object gbM3Outlined: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 156
+            Width = 422
+            Height = 59
+            Align = alTop
+            Caption = 'Outlined Buttons'
+            TabOrder = 2
+            object btn_M3OutlinedBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Outlined'
+            end
+            object btn_M3OutlinedDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Outlined'
+            end
+          end
+          object gbM3Filled: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 221
+            Width = 422
+            Height = 59
+            Align = alTop
+            Caption = 'Filled Buttons'
+            TabOrder = 3
+            object btn_M3FilledBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+            end
+            object btn_M3FilledDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+            end
+          end
+          object gbM3Tonal: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 286
+            Width = 422
+            Height = 59
+            Align = alTop
+            Caption = 'Tonal Buttons'
+            TabOrder = 4
+            object btn_M3TonalBasic: TStyledButton
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 72
+              Height = 36
+              Align = alLeft
+              Caption = 'Basic'
+              TabOrder = 0
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Tonal'
+            end
+            object btn_M3TonalDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 83
+              Top = 18
+              Width = 80
+              Height = 36
+              Align = alLeft
+              Caption = 'Disabled'
+              Enabled = False
+              TabOrder = 1
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Tonal'
+            end
           end
         end
-        object ClassicOutlineGroupBox: TGroupBox
-          Left = 0
-          Top = 121
-          Width = 883
-          Height = 130
-          Align = alTop
-          Caption = 'Outline Classic Buttons (inspired to VCL Styled Button)'
+        object M3FABGroupBox: TGroupBox
+          AlignWithMargins = True
+          Left = 442
+          Top = 3
+          Width = 446
+          Height = 456
+          Align = alClient
+          Caption = 'Icons and FAB'
           TabOrder = 1
-          object ClassicOutlineFlowPanel: TFlowPanel
-            Left = 2
-            Top = 15
-            Width = 879
-            Height = 143
+          object gbM3Icon: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 18
+            Width = 436
+            Height = 68
             Align = alTop
-            AutoSize = True
-            BevelOuter = bvNone
-            ParentBackground = False
-            ParentColor = True
+            Caption = 'Icon Buttons'
             TabOrder = 0
-            OnResize = FlowPanelResize
+            object btn_M3IconStandard: TStyledButton
+              Tag = 18
+              AlignWithMargins = True
+              Left = 5
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 18
+              ImageName = 'home-black'
+              Images = VirtualImageList32
+              NotificationBadge.CustomText = '!'
+              TabOrder = 0
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+            object btn_M3IconFilled: TStyledButton
+              Tag = -10
+              AlignWithMargins = True
+              Left = 56
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 9
+              ImageName = 'dots-vertical-white'
+              Images = VirtualImageList32
+              NotificationBadge.Color = clFuchsia
+              NotificationBadge.NotificationCount = 100
+              TabOrder = 1
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+            end
+            object btn_M3IconTonal: TStyledButton
+              Tag = 12
+              AlignWithMargins = True
+              Left = 107
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 12
+              ImageName = 'launch-black'
+              Images = VirtualImageList32
+              NotificationBadge.NotificationCount = 5
+              NotificationBadge.Size = nbsSmallDot
+              TabOrder = 2
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Tonal'
+            end
+            object btn_M3IconOutlined: TStyledButton
+              Tag = 14
+              AlignWithMargins = True
+              Left = 158
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              ImageAlignment = iaCenter
+              ImageIndex = 14
+              ImageName = 'trash-black'
+              Images = VirtualImageList32
+              NotificationBadge.Color = clTeal
+              NotificationBadge.NotificationCount = 5
+              TabOrder = 3
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Outlined'
+            end
+            object btn_M3IconDisabled: TStyledButton
+              Tag = 18
+              AlignWithMargins = True
+              Left = 209
+              Top = 18
+              Width = 45
+              Height = 45
+              Align = alLeft
+              Enabled = False
+              ImageAlignment = iaCenter
+              ImageIndex = 18
+              ImageName = 'home-black'
+              Images = VirtualImageList32
+              TabOrder = 4
+              StyleDrawType = btEllipse
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Text'
+            end
+          end
+          object gbM3FAB: TGroupBox
+            AlignWithMargins = True
+            Left = 5
+            Top = 92
+            Width = 436
+            Height = 68
+            Align = alTop
+            Caption = 'FAB'
+            TabOrder = 1
+            object btn_M3FABStandard: TStyledButton
+              Tag = 14
+              AlignWithMargins = True
+              Left = 21
+              Top = 14
+              Width = 48
+              Height = 48
+              ImageAlignment = iaCenter
+              ImageIndex = 14
+              ImageName = 'trash-black'
+              Images = VirtualImageList32
+              TabOrder = 0
+              StyleRadius = 16
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+            object btn_M3FABMini: TStyledButton
+              Tag = 18
+              AlignWithMargins = True
+              Left = 75
+              Top = 14
+              Width = 40
+              Height = 40
+              ImageAlignment = iaCenter
+              ImageIndex = 18
+              ImageName = 'home-black'
+              Images = VirtualImageList32
+              TabOrder = 1
+              StyleRadius = 12
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+            object btn_M3FABExtended: TStyledButton
+              AlignWithMargins = True
+              Left = 129
+              Top = 14
+              Width = 120
+              Height = 48
+              Caption = 'Extended'
+              ImageIndex = 8
+              ImageName = 'heart'
+              Images = VirtualImageList32
+              TabOrder = 2
+              StyleRadius = 16
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+            object btn_M3FABDisabled: TStyledButton
+              AlignWithMargins = True
+              Left = 260
+              Top = 14
+              Width = 48
+              Height = 48
+              Enabled = False
+              ImageAlignment = iaCenter
+              ImageIndex = 8
+              ImageName = 'heart'
+              Images = VirtualImageList32
+              TabOrder = 3
+              StyleRadius = 16
+              StyleDrawType = btRoundRect
+              StyleFamily = 'Angular-M3-Light'
+              StyleAppearance = 'Fab'
+            end
+          end
+        end
+        object gbM3ModalResult: TGroupBox
+          AlignWithMargins = True
+          Left = 4
+          Top = 466
+          Width = 884
+          Height = 59
+          Align = alBottom
+          Caption = 'Buttons with ModalResult'
+          TabOrder = 2
+          object btn_M3OK: TStyledButton
+            AlignWithMargins = True
+            Left = 5
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Ok'
+            ModalResult = 1
+            TabOrder = 0
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Cancel: TStyledButton
+            AlignWithMargins = True
+            Left = 85
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Cancel'
+            ModalResult = 2
+            TabOrder = 1
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Abort: TStyledButton
+            AlignWithMargins = True
+            Left = 165
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Abort'
+            ModalResult = 3
+            TabOrder = 2
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Retry: TStyledButton
+            AlignWithMargins = True
+            Left = 245
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Retry'
+            ModalResult = 4
+            TabOrder = 3
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Ignore: TStyledButton
+            AlignWithMargins = True
+            Left = 325
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Ignore'
+            ModalResult = 5
+            TabOrder = 4
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Yes: TStyledButton
+            AlignWithMargins = True
+            Left = 405
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Yes'
+            ModalResult = 6
+            TabOrder = 5
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3No: TStyledButton
+            AlignWithMargins = True
+            Left = 485
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'No'
+            ModalResult = 7
+            TabOrder = 6
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Close: TStyledButton
+            AlignWithMargins = True
+            Left = 565
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Close'
+            ModalResult = 8
+            TabOrder = 7
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3Help: TStyledButton
+            AlignWithMargins = True
+            Left = 645
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'Help'
+            ModalResult = 9
+            TabOrder = 8
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
+          end
+          object btn_M3All: TStyledButton
+            AlignWithMargins = True
+            Left = 725
+            Top = 18
+            Width = 74
+            Height = 36
+            Align = alLeft
+            Caption = 'All'
+            ModalResult = 12
+            TabOrder = 9
+            OnClick = ButtonClick
+            StyleFamily = 'Angular-M3-Light'
           end
         end
       end
@@ -1617,8 +2166,8 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 881
-        Height = 570
+        Width = 886
+        Height = 579
         Align = alClient
         BevelOuter = bvNone
         BorderStyle = bsNone
@@ -1628,7 +2177,7 @@ object fmStyledButtons: TfmStyledButtons
         object GroupBoxNormal: TGroupBox
           Left = 0
           Top = 0
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Normal Buttons'
@@ -1636,7 +2185,7 @@ object fmStyledButtons: TfmStyledButtons
           object FlowPanelNormal: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
@@ -1650,7 +2199,7 @@ object fmStyledButtons: TfmStyledButtons
         object GroupBoxOutline: TGroupBox
           Left = 0
           Top = 185
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Outline Buttons'
@@ -1658,7 +2207,7 @@ object fmStyledButtons: TfmStyledButtons
           object FlowPanelOutLine: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
@@ -1679,8 +2228,8 @@ object fmStyledButtons: TfmStyledButtons
         AlignWithMargins = True
         Left = 3
         Top = 3
-        Width = 881
-        Height = 570
+        Width = 886
+        Height = 579
         Align = alClient
         BevelOuter = bvNone
         BorderStyle = bsNone
@@ -1689,7 +2238,7 @@ object fmStyledButtons: TfmStyledButtons
         object SvgColorNormalGroupBox: TGroupBox
           Left = 0
           Top = 0
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Normal Buttons'
@@ -1697,7 +2246,7 @@ object fmStyledButtons: TfmStyledButtons
           object SvgColorNormalFlowPanel: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
@@ -1711,7 +2260,7 @@ object fmStyledButtons: TfmStyledButtons
         object SvgColorOutlineGroupBox: TGroupBox
           Left = 0
           Top = 185
-          Width = 881
+          Width = 886
           Height = 185
           Align = alTop
           Caption = 'Outline Buttons'
@@ -1719,7 +2268,7 @@ object fmStyledButtons: TfmStyledButtons
           object SvgColorOutlineFlowPanel: TFlowPanel
             Left = 2
             Top = 15
-            Width = 877
+            Width = 882
             Height = 143
             Align = alTop
             AutoSize = True
@@ -1896,6 +2445,11 @@ object fmStyledButtons: TfmStyledButtons
         CollectionIndex = 23
         CollectionName = 'SVG-Color'
         Name = 'SVG-Color'
+      end
+      item
+        CollectionIndex = 48
+        CollectionName = 'Angular-M3-logo'
+        Name = 'Angular-M3-logo'
       end>
     ImageCollection = dmResources.ImageCollection
     PreserveItems = True

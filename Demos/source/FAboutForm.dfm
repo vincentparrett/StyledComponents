@@ -313,8 +313,8 @@ object fmAbout: TfmAbout
     Width = 145
     Height = 17
     Caption = 
-      'Open <A HREF="https://github.com/EtheaDev/StyledComponents/wiki/' +
-      '">StyledComponents Wiki</A>'
+      'Open <A HREF="https://ethea.it/docs/styledcomponents/">Styled' +
+      'Components Documentation</A>'
     TabOrder = 2
     OnLinkClick = LinkLabelLinkClick
   end

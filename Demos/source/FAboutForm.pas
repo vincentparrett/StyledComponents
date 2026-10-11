@@ -102,7 +102,7 @@ procedure TfmAbout.LinkLabelLinkClick(Sender: TObject; const Link: string;
 begin
   ShellExecute(handle, 'open',
   PChar(Link), nil, nil, SW_SHOWNORMAL);
-//https://github.com/EtheaDev/StyledComponents/wiki
+//https://ethea.it/docs/styledcomponents/
 end;
 
 end.

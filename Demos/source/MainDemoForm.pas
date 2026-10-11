@@ -69,6 +69,7 @@ type
     WorkPanel: TPanel;
     acQuit: TAction;
     acAbout: TAction;
+    acHelp: TAction;
     actSettings: TAction;
     actMenu: TAction;
     LeftPanel: TPanel;
@@ -133,6 +134,7 @@ type
     procedure actMenuExecute(Sender: TObject);
     procedure acQuitExecute(Sender: TObject);
     procedure acAboutExecute(Sender: TObject);
+    procedure acHelpExecute(Sender: TObject);
     procedure acExampleExecute(Sender: TObject);
     procedure FormResize(Sender: TObject);
     procedure CbFontDrawItem(Control: TWinControl; Index: Integer; Rect: TRect; State: TOwnerDrawState);
@@ -190,7 +192,9 @@ uses
   , Vcl.Graphics
   , Vcl.ImgList
   , Vcl.Themes
+  , Winapi.Windows
   , Winapi.ShlObj
+  , Winapi.ShellAPI
   , DemoWelcomeForm
   , Vcl.Dialogs
   , Vcl.StyledTaskDialog
@@ -250,6 +254,40 @@ end;
 procedure TfrmMain.acAboutExecute(Sender: TObject);
 begin
   ShowAboutForm;
+end;
+
+procedure TfrmMain.acHelpExecute(Sender: TObject);
+const
+  DOCS_URL = 'https://ethea.it/docs/styledcomponents/';
+var
+  LPage: string;
+begin
+  //Page of the online documentation about the demo which is open
+  if FActiveView is TfmStyledButtons then
+    LPage := TfmStyledButtons(FActiveView).HelpPage
+  else if FActiveAction = acStyledBitBtn then
+    LPage := 'BitBtnDemo'
+  else if FActiveAction = acAutoClick then
+    LPage := 'AutoClickDemo'
+  else if FActiveAction = acStyledButtonVCLStyles then
+    LPage := 'StyledButtonVCLStylesDemo'
+  else if FActiveAction = acStyledToolbar then
+    LPage := 'StyledToolbarDemo'
+  else if FActiveAction = acStyledDbNavigator then
+    LPage := 'StyledDbNavigatorDemo'
+  else if FActiveAction = acStyledButtonGroup then
+    LPage := 'StyledButtonGroupDemo'
+  else if FActiveAction = acStyledCategoryButtons then
+    LPage := 'StyledCategoryButtonsDemo'
+  else if FActiveAction = acStyledTaskDialog then
+    LPage := 'StyledTaskDialogDemo'
+  else if FActiveAction = acRoundedCorners then
+    LPage := 'RoundedCornersDemo'
+  else if FActiveAction = acStyledPanel then
+    LPage := 'StyledPanelDemo'
+  else
+    LPage := 'MainDemo';
+  ShellExecute(Handle, 'open', PChar(DOCS_URL + LPage), nil, nil, SW_SHOWNORMAL);
 end;
 
 function TfrmMain.SelectedStyleName: string;

@@ -15,7 +15,9 @@ uses
   DUnitX.TestFramework,
   Vcl.ButtonStylesAttributes,
   Vcl.BootstrapButtonStyles,
+  Vcl.AngularButtonStyles,
   Vcl.StyledButton,
+  Vcl.StyledPanel,
   StyledTestUtils;
 
 type
@@ -59,6 +61,30 @@ type
     /// </summary>
     [Test]
     procedure StyleFamilyChangedAlone_RecomputesTheAttributes;
+
+    /// <summary>
+    ///  Changing the family to Angular-M3 resets the class and the appearance that
+    ///  the new family does not have (Bootstrap Danger/Outline) to its defaults
+    ///  (Basic/Filled) and recomputes the colours.
+    /// </summary>
+    [Test]
+    procedure FamilyChangeToM3_ResetsUnknownClassAndAppearance;
+
+    /// <summary>
+    ///  The class and the appearance that the new family also has are kept:
+    ///  Angular-Light Basic/Raised -> M3 keeps Basic but Raised becomes Filled;
+    ///  Light -> Dark keeps the M3 appearance.
+    /// </summary>
+    [Test]
+    procedure FamilyChangeToM3_KeepsTheValidValues;
+
+    /// <summary>From M3 (Basic/Tonal) back to Bootstrap: Bootstrap defaults and Bootstrap colours.</summary>
+    [Test]
+    procedure FamilyChangeFromM3_ResetsToTheNewFamilyDefaults;
+
+    /// <summary>The same reset happens in the TStyledPanel.</summary>
+    [Test]
+    procedure PanelFamilyChange_ResetsClassAndAppearance;
   end;
 
   [TestFixture]
@@ -185,6 +211,105 @@ begin
   finally
     TStyledTestUtils.FreeAttributes(N, P, S, H, D);
     LButton.Free;
+  end;
+end;
+
+procedure TStyledButtonStyleTests.FamilyChangeToM3_ResetsUnknownClassAndAppearance;
+var
+  LButton: TStyledButton;
+  N, P, S, H, D: TStyledButtonAttributes;
+  LClass, LAppearance: string;
+begin
+  LButton := TStyledButton.Create(nil);
+  TStyledTestUtils.NewAttributes(N, P, S, H, D);
+  try
+    LButton.StyleFamily := BOOTSTRAP_FAMILY;
+    LButton.StyleClass := btn_danger;
+    LButton.StyleAppearance := BOOTSTRAP_OUTLINE;
+    Assert.AreEqual(btn_danger, LButton.StyleClass, 'precondition');
+
+    LButton.StyleFamily := ANGULAR_M3_LIGHT_FAMILY;
+    Assert.AreEqual(btn_Basic, LButton.StyleClass, 'class reset to the only M3 class');
+    Assert.AreEqual(FilledAttr, LButton.StyleAppearance, 'appearance reset to the M3 default');
+    LClass := LButton.StyleClass;
+    LAppearance := LButton.StyleAppearance;
+    Assert.IsTrue(StyleFamilyUpdateAttributes(ANGULAR_M3_LIGHT_FAMILY, LClass, LAppearance, N, P, S, H, D));
+    Assert.AreEqual(ColorToRGB(N.ButtonColor), ColorToRGB(LButton.ButtonStyleNormal.ButtonColor),
+      'Normal.ButtonColor must be the M3 Filled one, not the Bootstrap Danger one');
+    Assert.AreEqual(ColorToRGB(N.FontColor), ColorToRGB(LButton.ButtonStyleNormal.FontColor));
+    Assert.AreEqual(Ord(btRounded), Ord(LButton.StyleDrawType), 'M3 default shape');
+  finally
+    TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    LButton.Free;
+  end;
+end;
+
+procedure TStyledButtonStyleTests.FamilyChangeToM3_KeepsTheValidValues;
+var
+  LButton: TStyledButton;
+begin
+  LButton := TStyledButton.Create(nil);
+  try
+    LButton.StyleFamily := ANGULAR_LIGHT_FAMILY;
+    LButton.StyleClass := btn_Basic;
+    LButton.StyleAppearance := RaisedAttr;
+    LButton.StyleFamily := ANGULAR_M3_LIGHT_FAMILY;
+    Assert.AreEqual(btn_Basic, LButton.StyleClass, 'Basic exists in both families');
+    Assert.AreEqual(FilledAttr, LButton.StyleAppearance, 'Raised does not exist in M3');
+
+    LButton.StyleAppearance := OutlinedAttr;
+    LButton.StyleFamily := ANGULAR_M3_DARK_FAMILY;
+    Assert.AreEqual(OutlinedAttr, LButton.StyleAppearance, 'Outlined exists in M3 Dark');
+    LButton.StyleFamily := ANGULAR_M3_LIGHT_FAMILY;
+    Assert.AreEqual(OutlinedAttr, LButton.StyleAppearance, 'and back to Light');
+  finally
+    LButton.Free;
+  end;
+end;
+
+procedure TStyledButtonStyleTests.FamilyChangeFromM3_ResetsToTheNewFamilyDefaults;
+var
+  LButton: TStyledButton;
+  N, P, S, H, D: TStyledButtonAttributes;
+  LClass, LAppearance: string;
+begin
+  LButton := TStyledButton.Create(nil);
+  TStyledTestUtils.NewAttributes(N, P, S, H, D);
+  try
+    LButton.StyleFamily := ANGULAR_M3_LIGHT_FAMILY;
+    LButton.StyleAppearance := TonalAttr;
+    LButton.StyleFamily := BOOTSTRAP_FAMILY;
+    LClass := LButton.StyleClass;
+    LAppearance := LButton.StyleAppearance;
+    Assert.AreNotEqual(TonalAttr, LAppearance, 'Tonal does not exist in Bootstrap');
+    Assert.IsTrue(StyleFamilyUpdateAttributes(BOOTSTRAP_FAMILY, LClass, LAppearance, N, P, S, H, D));
+    Assert.AreEqual(ColorToRGB(N.ButtonColor), ColorToRGB(LButton.ButtonStyleNormal.ButtonColor),
+      'Normal.ButtonColor must be the Bootstrap one');
+  finally
+    TStyledTestUtils.FreeAttributes(N, P, S, H, D);
+    LButton.Free;
+  end;
+end;
+
+procedure TStyledButtonStyleTests.PanelFamilyChange_ResetsClassAndAppearance;
+var
+  LForm: TForm;
+  LPanel: TStyledPanel;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LPanel := TStyledPanel.Create(LForm);
+    LPanel.StyleFamily := BOOTSTRAP_FAMILY;
+    LPanel.StyleClass := btn_danger;
+    LPanel.StyleAppearance := BOOTSTRAP_OUTLINE;
+    LPanel.StyleFamily := ANGULAR_M3_DARK_FAMILY;
+    Assert.AreEqual(btn_Basic, LPanel.StyleClass, 'class reset');
+    Assert.AreEqual(FilledAttr, LPanel.StyleAppearance, 'appearance reset');
+    LPanel.StyleAppearance := TonalAttr;
+    LPanel.StyleFamily := ANGULAR_M3_LIGHT_FAMILY;
+    Assert.AreEqual(TonalAttr, LPanel.StyleAppearance, 'Tonal kept moving Dark -> Light');
+  finally
+    LForm.Free;
   end;
 end;
 

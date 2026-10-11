@@ -7,6 +7,8 @@ interface
 
 uses
   System.SysUtils,
+  Winapi.Windows,
+  Winapi.Messages,
   System.Classes,
   Vcl.Graphics,
   Vcl.Controls,
@@ -20,7 +22,10 @@ uses
   DUnitX.TestFramework,
   Vcl.ButtonStylesAttributes,
   Vcl.StandardButtonStyles,
+  Vcl.AngularButtonStyles,
   Vcl.StyledToolbar,
+  Vcl.DBCtrls,
+  Vcl.StyledDbNavigator,
   Vcl.StyledButtonGroup,
   Vcl.StyledCategoryButtons,
   Vcl.StyledPanel,
@@ -42,6 +47,18 @@ type
     /// </summary>
     [Test]
     procedure ButtonSize_SetInsideBeginUpdate_IsAppliedOnEndUpdate;
+
+    /// <summary>
+    ///  Regression (T3). A Wrapable AutoSize toolbar Align=alTop wrapped its buttons
+    ///  on more rows but its height stayed at one row: ControlsHeight summed
+    ///  heights instead of taking the bottom of the lowest control.
+    /// </summary>
+    [Test]
+    procedure WrapableAutoSize_AlTop_HeightFollowsTheRows;
+
+    /// <summary>Regression (T3), vertical toolbar Align=alLeft with FlowStyle fsTopBottomLeftRight.</summary>
+    [Test]
+    procedure WrapableAutoSize_AlLeft_WidthFollowsTheColumns;
   end;
 
   [TestFixture]
@@ -126,6 +143,32 @@ type
   end;
 
   [TestFixture]
+  TStyleShadowSizeTests = class
+  public
+    /// <summary>The toolbar propagates StyleShadowSize to its buttons, like StyleRadius.</summary>
+    [Test]
+    procedure Toolbar_PropagatesToButtons_AndKeepsCustomButtons;
+    /// <summary>The navigator propagates StyleShadowSize to its buttons.</summary>
+    [Test]
+    procedure DbNavigator_PropagatesToButtons;
+    /// <summary>Group: the item inherits StyleShadowSize and the group paints the shadow inside each item.</summary>
+    [Test]
+    procedure ButtonGroup_ItemInheritsAndPaintsTheShadow;
+    /// <summary>Category buttons: the item inherits StyleShadowSize and the control paints differently.</summary>
+    [Test]
+    procedure CategoryButtons_ItemInheritsAndPaintsTheShadow;
+    /// <summary>Panel: default -1 (family), not stored; a value paints the shadow inside the control, is streamed and assigned.</summary>
+    [Test]
+    procedure Panel_StyleShadowSize_PaintsStreamsAndAssigns;
+    /// <summary>Panel: Elevated has the shadow of the family, 0 removes it, values below -1 are refused.</summary>
+    [Test]
+    procedure Panel_Elevated_FamilyShadow_ZeroRemovesIt;
+    /// <summary>Panel: the client area of the children excludes the shadow.</summary>
+    [Test]
+    procedure Panel_ChildrenStayInsideTheFace;
+  end;
+
+  [TestFixture]
   TStyledGroupItemTests = class
   public
     /// <summary>
@@ -144,6 +187,10 @@ type
 
 implementation
 
+type
+  //Access to the protected AdjustSize that the VCL calls after a resize
+  TToolbarAccess = class(TStyledToolbar);
+
 { TStyledToolbarTests }
 
 procedure TStyledToolbarTests.Create_Default_ButtonSize;
@@ -156,6 +203,83 @@ begin
     Assert.AreEqual(22, LToolbar.ButtonHeight, 'ButtonHeight');
   finally
     LToolbar.Free;
+  end;
+end;
+
+procedure TStyledToolbarTests.WrapableAutoSize_AlTop_HeightFollowsTheRows;
+const
+  BUTTONS = 6;
+var
+  LForm: TForm;
+  LToolbar: TStyledToolbar;
+  LButton: TStyledToolButton;
+  I, LOneRow: Integer;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LForm.ClientWidth := 700;
+    LForm.ClientHeight := 400;
+    LToolbar := TStyledToolbar.Create(LForm);
+    LToolbar.Parent := LForm;
+    LToolbar.Align := alTop;
+    LToolbar.ButtonWidth := 100;
+    LToolbar.ButtonHeight := 30;
+    for I := 1 to BUTTONS do
+      Assert.IsTrue(LToolbar.NewButton(LButton), 'NewButton');
+    LToolbar.Wrapable := True;
+    LToolbar.AutoSize := True;
+    LForm.HandleNeeded;
+    LToolbar.HandleNeeded;
+    TToolbarAccess(LToolbar).AdjustSize;
+    LOneRow := LToolbar.Height;
+    // narrow: 6 buttons of 100 do not fit in 250, so 3 rows of 2
+    LForm.ClientWidth := 250;
+    TToolbarAccess(LToolbar).AdjustSize;
+    Assert.IsTrue(LToolbar.Height >= 3 * 30,
+      Format('3 rows of 30 need at least 90, the toolbar is %d high (one row was %d)',
+      [LToolbar.Height, LOneRow]));
+    // wide again: back to one row
+    LForm.ClientWidth := 700;
+    TToolbarAccess(LToolbar).AdjustSize;
+    Assert.IsTrue(LToolbar.Height <= LOneRow + 2,
+      Format('one row again: %d, expected about %d', [LToolbar.Height, LOneRow]));
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyledToolbarTests.WrapableAutoSize_AlLeft_WidthFollowsTheColumns;
+const
+  BUTTONS = 6;
+var
+  LForm: TForm;
+  LToolbar: TStyledToolbar;
+  LButton: TStyledToolButton;
+  I: Integer;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LForm.ClientWidth := 600;
+    LForm.ClientHeight := 400;
+    LToolbar := TStyledToolbar.Create(LForm);
+    LToolbar.Parent := LForm;
+    LToolbar.Align := alLeft;
+    LToolbar.FlowStyle := fsTopBottomLeftRight;
+    LToolbar.ButtonWidth := 100;
+    LToolbar.ButtonHeight := 30;
+    for I := 1 to BUTTONS do
+      Assert.IsTrue(LToolbar.NewButton(LButton), 'NewButton');
+    LToolbar.Wrapable := True;
+    LToolbar.AutoSize := True;
+    LForm.HandleNeeded;
+    LToolbar.HandleNeeded;
+    // short parent: 6 buttons of 30 do not fit in 100, so 2 columns
+    LForm.ClientHeight := 100;
+    TToolbarAccess(LToolbar).AdjustSize;
+    Assert.IsTrue(LToolbar.Width >= 2 * 100,
+      Format('2 columns of 100 need at least 200, the toolbar is %d wide', [LToolbar.Width]));
+  finally
+    LForm.Free;
   end;
 end;
 
@@ -609,6 +733,289 @@ begin
   end;
 end;
 
+{ TStyleShadowSizeTests }
+
+//Paints a panel like a WM_ERASEBKGND + WM_PAINT: PaintTo of a panel with
+//ParentBackground does not reach Paint
+function PaintPanelFully(const APanel: TStyledPanel): TBitmap;
+begin
+  APanel.HandleNeeded;
+  Result := TStyledTestUtils.NewBitmap(APanel.Width, APanel.Height, clPureWhite);
+  APanel.Perform(WM_ERASEBKGND, WPARAM(Result.Canvas.Handle), 0);
+  APanel.Perform(WM_PAINT, WPARAM(Result.Canvas.Handle), 0);
+end;
+
+procedure TStyleShadowSizeTests.Toolbar_PropagatesToButtons_AndKeepsCustomButtons;
+var
+  LForm: TForm;
+  LToolbar: TStyledToolbar;
+  LButton1, LButton2: TStyledToolButton;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LToolbar := TStyledToolbar.Create(LForm);
+    LToolbar.Parent := LForm;
+    Assert.IsTrue(LToolbar.NewButton(LButton1));
+    Assert.IsTrue(LToolbar.NewButton(LButton2));
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LToolbar.StyleShadowSize, 'default');
+    LButton2.StyleShadowSize := 6;
+    LToolbar.StyleShadowSize := 3;
+    Assert.AreEqual(3, LButton1.StyleShadowSize, 'button follows the toolbar');
+    Assert.AreEqual(6, LButton2.StyleShadowSize, 'a button with its own value keeps it');
+    //a button added later inherits the toolbar value
+    Assert.IsTrue(LToolbar.NewButton(LButton1));
+    Assert.AreEqual(3, LButton1.StyleShadowSize, 'new button inherits');
+    Assert.IsTrue(Pos('StyleShadowSize = 3', TStyledTestUtils.DfmText(LToolbar)) > 0, 'stored');
+    LToolbar.StyleShadowSize := DEFAULT_SHADOW_SIZE;
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LToolbar.StyleShadowSize);
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyleShadowSizeTests.DbNavigator_PropagatesToButtons;
+var
+  LForm: TForm;
+  LNavigator: TStyledDBNavigator;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LNavigator := TStyledDBNavigator.Create(LForm);
+    LNavigator.Parent := LForm;
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LNavigator.StyleShadowSize, 'default');
+    LNavigator.StyleShadowSize := 3;
+    Assert.AreEqual(3, LNavigator.Buttons[nbFirst].StyleShadowSize, 'button follows the navigator');
+    Assert.AreEqual(3, LNavigator.Buttons[nbDelete].StyleShadowSize, 'all the buttons');
+    Assert.IsTrue(Pos('StyleShadowSize = 3', TStyledTestUtils.DfmText(LNavigator)) > 0, 'stored');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyleShadowSizeTests.ButtonGroup_ItemInheritsAndPaintsTheShadow;
+var
+  LForm: TForm;
+  LGroup: TStyledButtonGroup;
+  LItem: TStyledGrpButtonItem;
+  LPlain, LShadow: TBitmap;
+  LMid: Integer;
+
+  function BlueRows(const ABitmap: TBitmap): Integer;
+  var
+    Y: Integer;
+  begin
+    Result := 0;
+    for Y := 0 to ABitmap.Height - 1 do
+      if GetRValue(ColorToRGB(TStyledTestUtils.PixelAt(ABitmap, 8, Y))) < 120 then
+        Inc(Result);
+  end;
+
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LGroup := TStyledButtonGroup.Create(LForm);
+    LGroup.Parent := LForm;
+    LGroup.SetBounds(0, 0, 200, 80);
+    LGroup.StyleFamily := BOOTSTRAP_FAMILY;
+    LGroup.StyleClass := btn_primary;
+    LGroup.StyleAppearance := BOOTSTRAP_NORMAL;
+    LItem := LGroup.Items.Add as TStyledGrpButtonItem;
+    LItem.Caption := 'A';
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LItem.StyleShadowSize, 'default');
+    LMid := LGroup.ButtonHeight div 2;
+    LPlain := TStyledTestUtils.PaintWinControl(LGroup);
+    try
+      LGroup.StyleShadowSize := 4;
+      Assert.AreEqual(4, LItem.StyleShadowSize, 'item inherits the group value');
+      LShadow := TStyledTestUtils.PaintWinControl(LGroup);
+      try
+        //the face of the item (the blue of Primary) is shorter by the shadow at the
+        //bottom, while the top is unchanged
+        Assert.IsTrue(BlueRows(LShadow) < BlueRows(LPlain) - 2,
+          Format('the face of the item is reduced at the bottom: %d rows against %d',
+          [BlueRows(LShadow), BlueRows(LPlain)]));
+        Assert.IsTrue(TStyledTestUtils.SameColor(TStyledTestUtils.PixelAt(LShadow, 8, 3),
+          TStyledTestUtils.PixelAt(LPlain, 8, 3), 12), 'the top of the item is unchanged (up to the antialiasing)');
+      finally
+        LShadow.Free;
+      end;
+    finally
+      LPlain.Free;
+    end;
+    Assert.IsTrue(Pos('StyleShadowSize = 4', TStyledTestUtils.DfmText(LGroup)) > 0, 'stored');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyleShadowSizeTests.CategoryButtons_ItemInheritsAndPaintsTheShadow;
+var
+  LForm: TForm;
+  LCategoryButtons: TStyledCategoryButtons;
+  LCategory: TButtonCategory;
+  LItem: TStyledButtonItem;
+  LPlain, LShadow: TBitmap;
+  X, Y: Integer;
+  LDifferent: Boolean;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LCategoryButtons := TStyledCategoryButtons.Create(LForm);
+    LCategoryButtons.Parent := LForm;
+    LCategoryButtons.SetBounds(0, 0, 200, 120);
+    LCategoryButtons.StyleFamily := BOOTSTRAP_FAMILY;
+    LCategoryButtons.StyleClass := btn_primary;
+    LCategoryButtons.StyleAppearance := BOOTSTRAP_NORMAL;
+    LCategory := LCategoryButtons.Categories.Add;
+    LCategory.Caption := 'Cat';
+    LItem := LCategory.Items.Add as TStyledButtonItem;
+    LItem.Caption := 'A';
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LItem.StyleShadowSize, 'default');
+    LPlain := TStyledTestUtils.PaintWinControl(LCategoryButtons);
+    try
+      LCategoryButtons.StyleShadowSize := 4;
+      Assert.AreEqual(4, LItem.StyleShadowSize, 'item inherits the container value');
+      LShadow := TStyledTestUtils.PaintWinControl(LCategoryButtons);
+      try
+        LDifferent := False;
+        for Y := 0 to LPlain.Height - 1 do
+          for X := 0 to LPlain.Width - 1 do
+            if TStyledTestUtils.PixelAt(LPlain, X, Y) <> TStyledTestUtils.PixelAt(LShadow, X, Y) then
+              LDifferent := True;
+        Assert.IsTrue(LDifferent, 'the item is painted with a shadow');
+      finally
+        LShadow.Free;
+      end;
+    finally
+      LPlain.Free;
+    end;
+    Assert.IsTrue(Pos('StyleShadowSize = 4', TStyledTestUtils.DfmText(LCategoryButtons)) > 0, 'stored');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyleShadowSizeTests.Panel_StyleShadowSize_PaintsStreamsAndAssigns;
+var
+  LForm: TForm;
+  LPanel, LCopy, LOther: TStyledPanel;
+  LBitmap: TBitmap;
+  Y, LBelow: Integer;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LPanel := TStyledPanel.Create(LForm);
+    LPanel.Parent := LForm;
+    LPanel.SetBounds(0, 0, 200, 80);
+    LPanel.StyleFamily := BOOTSTRAP_FAMILY;
+    LPanel.StyleClass := btn_primary;
+    LPanel.StyleAppearance := BOOTSTRAP_NORMAL;
+    Assert.AreEqual(DEFAULT_SHADOW_SIZE, LPanel.StyleShadowSize, 'default = from the family');
+    Assert.IsTrue(Pos('StyleShadowSize', TStyledTestUtils.DfmText(LPanel)) = 0, 'the default is not streamed');
+    LPanel.StyleShadowSize := 4;
+    Assert.AreEqual(4, LPanel.StyleShadowSize);
+    LBitmap := PaintPanelFully(LPanel);
+    try
+      LBelow := 0;
+      for Y := 50 to 79 do
+        if (GetRValue(ColorToRGB(TStyledTestUtils.PixelAt(LBitmap, 100, Y))) < 250) and
+          (GetRValue(ColorToRGB(TStyledTestUtils.PixelAt(LBitmap, 100, Y))) > 150) then
+          Inc(LBelow);
+      Assert.IsTrue(LBelow >= 2, Format('shadow rows below the face: %d', [LBelow]));
+      //nothing is reduced at the top and at the sides
+      Assert.IsTrue(TStyledTestUtils.PixelAt(LBitmap, 100, 0) <> clPureWhite, 'first row: the face');
+      Assert.IsTrue(TStyledTestUtils.PixelAt(LBitmap, 3, 40) <> clPureWhite, 'first columns: the face');
+    finally
+      LBitmap.Free;
+    end;
+    Assert.IsTrue(Pos('StyleShadowSize = 4', TStyledTestUtils.DfmText(LPanel)) > 0, 'stored when not default');
+    LCopy := TStyledTestUtils.StreamRoundTrip(LPanel, TStyledPanel, LForm) as TStyledPanel;
+    Assert.AreEqual(4, LCopy.StyleShadowSize, 'survives streaming');
+    LOther := TStyledPanel.Create(LForm);
+    LOther.Assign(LPanel);
+    Assert.AreEqual(4, LOther.StyleShadowSize, 'copied by Assign');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyleShadowSizeTests.Panel_Elevated_FamilyShadow_ZeroRemovesIt;
+var
+  LForm: TForm;
+  LPanel: TStyledPanel;
+  LBitmap: TBitmap;
+  LShadowEdge, LShadowFace, LFlatEdge, LFlatFace: TColor;
+  LRaised: Boolean;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LPanel := TStyledPanel.Create(LForm);
+    LPanel.Parent := LForm;
+    LPanel.SetBounds(0, 0, 200, 80);
+    LPanel.StyleFamily := ANGULAR_M3_LIGHT_FAMILY;
+    LPanel.StyleClass := btn_Basic;
+    LPanel.StyleAppearance := ElevatedAttr;
+    LBitmap := PaintPanelFully(LPanel);
+    try
+      LShadowEdge := TStyledTestUtils.PixelAt(LBitmap, 100, 78);
+      LShadowFace := TStyledTestUtils.PixelAt(LBitmap, 100, 40);
+    finally
+      LBitmap.Free;
+    end;
+    LPanel.StyleShadowSize := 0;
+    LBitmap := PaintPanelFully(LPanel);
+    try
+      LFlatEdge := TStyledTestUtils.PixelAt(LBitmap, 100, 78);
+      LFlatFace := TStyledTestUtils.PixelAt(LBitmap, 100, 40);
+    finally
+      LBitmap.Free;
+    end;
+    Assert.IsTrue(LFlatEdge = LFlatFace, 'no shadow: the face reaches the bottom edge');
+    Assert.IsTrue(LShadowFace = LFlatFace, 'the face is the same');
+    Assert.IsTrue(LShadowEdge <> LShadowFace, Format('the family shadow reduces the face: normal %d en %d col %s bc %s ds %d edge %s face %s', [LPanel.PanelStyleNormal.ShadowSize, Ord(LPanel.Enabled), TStyledTestUtils.ColorText(LPanel.Color), TStyledTestUtils.ColorText(LPanel.PanelStyleNormal.ButtonColor), Ord(LPanel.PanelStyleNormal.ButtonDrawStyle), TStyledTestUtils.ColorText(LShadowEdge), TStyledTestUtils.ColorText(LShadowFace)]));
+    LRaised := False;
+    try
+      LPanel.StyleShadowSize := -2;
+    except
+      on EReadError do LRaised := True;
+    end;
+    Assert.IsTrue(LRaised, 'values below -1 are refused');
+  finally
+    LForm.Free;
+  end;
+end;
+
+procedure TStyleShadowSizeTests.Panel_ChildrenStayInsideTheFace;
+var
+  LForm: TForm;
+  LPanel: TStyledPanel;
+  LChild: TPanel;
+begin
+  LForm := TStyledTestUtils.HostForm;
+  try
+    LPanel := TStyledPanel.Create(LForm);
+    LPanel.Parent := LForm;
+    LPanel.SetBounds(0, 0, 200, 80);
+    LPanel.StyleFamily := BOOTSTRAP_FAMILY;
+    LPanel.StyleClass := btn_primary;
+    LPanel.StyleAppearance := BOOTSTRAP_NORMAL;
+    LChild := TPanel.Create(LForm);
+    LChild.Parent := LPanel;
+    LChild.Align := alClient;
+    LPanel.HandleNeeded;
+    LPanel.Realign;
+    Assert.AreEqual(0, LChild.Left, 'no shadow: the child fills the panel');
+    LPanel.StyleShadowSize := 5;
+    LPanel.Realign;
+    Assert.AreEqual(0, LChild.Left, 'the shadow is only below: the left is unchanged');
+    Assert.AreEqual(0, LChild.Top, 'the shadow is only below: the top is unchanged');
+    Assert.AreEqual(LPanel.ClientWidth, LChild.Width, 'the width is unchanged');
+    Assert.IsTrue(LChild.Top + LChild.Height <= LPanel.ClientHeight - 5, 'child above the shadow');
+  finally
+    LForm.Free;
+  end;
+end;
+
 { TStyledGroupItemTests }
 
 procedure TStyledGroupItemTests.ButtonGroup_ItemAddedToEmptyGroup_InheritsContainerShape;
@@ -660,5 +1067,6 @@ initialization
   TDUnitX.RegisterTestFixture(TStyledToolbarTests);
   TDUnitX.RegisterTestFixture(TStyledPanelTests);
   TDUnitX.RegisterTestFixture(TStyledGroupItemTests);
+  TDUnitX.RegisterTestFixture(TStyleShadowSizeTests);
 
 end.

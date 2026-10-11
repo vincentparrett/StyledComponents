@@ -148,6 +148,9 @@ type
     btn_AngularClose: TStyledButton;
     btn_AngularHelp: TStyledButton;
     btn_AngularAll: TStyledButton;
+    tsAngularM3: TTabSheet;
+    AngularM3ThemesPanel: TPanel;
+    rgAngularM3Scheme: TRadioGroup;
     gbBootstrapModalResult: TGroupBox;
     btn_BootstrapOK: TStyledButton;
     btn_BootstrapCancel: TStyledButton;
@@ -199,6 +202,46 @@ type
     ButtonSplit: TButton;
     StyledButtonSplit: TStyledButton;
     BadgeTimer: TTimer;
+    M3ButtonsClientPanel: TPanel;
+    M3ButtonsGroupBox: TGroupBox;
+    gbM3Text: TGroupBox;
+    btn_M3TextBasic: TStyledButton;
+    btn_M3TextDisabled: TStyledButton;
+    gbM3Elevated: TGroupBox;
+    btn_M3ElevatedBasic: TStyledButton;
+    btn_M3ElevatedDisabled: TStyledButton;
+    gbM3Outlined: TGroupBox;
+    btn_M3OutlinedBasic: TStyledButton;
+    btn_M3OutlinedDisabled: TStyledButton;
+    gbM3Filled: TGroupBox;
+    btn_M3FilledBasic: TStyledButton;
+    btn_M3FilledDisabled: TStyledButton;
+    gbM3Tonal: TGroupBox;
+    btn_M3TonalBasic: TStyledButton;
+    btn_M3TonalDisabled: TStyledButton;
+    M3FABGroupBox: TGroupBox;
+    gbM3Icon: TGroupBox;
+    btn_M3IconStandard: TStyledButton;
+    btn_M3IconFilled: TStyledButton;
+    btn_M3IconTonal: TStyledButton;
+    btn_M3IconOutlined: TStyledButton;
+    btn_M3IconDisabled: TStyledButton;
+    gbM3FAB: TGroupBox;
+    btn_M3FABStandard: TStyledButton;
+    btn_M3FABMini: TStyledButton;
+    btn_M3FABExtended: TStyledButton;
+    btn_M3FABDisabled: TStyledButton;
+    gbM3ModalResult: TGroupBox;
+    btn_M3OK: TStyledButton;
+    btn_M3Cancel: TStyledButton;
+    btn_M3Abort: TStyledButton;
+    btn_M3Retry: TStyledButton;
+    btn_M3Ignore: TStyledButton;
+    btn_M3Yes: TStyledButton;
+    btn_M3No: TStyledButton;
+    btn_M3Close: TStyledButton;
+    btn_M3Help: TStyledButton;
+    btn_M3All: TStyledButton;
     procedure TestActionExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure LinkLabelLinkClick(Sender: TObject; const Link: string;
@@ -206,6 +249,7 @@ type
     procedure rgAngularLightThemesClick(Sender: TObject);
     procedure AngularThemesPanelResize(Sender: TObject);
     procedure rgAngularDarkThemesClick(Sender: TObject);
+    procedure rgAngularM3SchemeClick(Sender: TObject);
     procedure ButtonClick(Sender: TObject);
     procedure FlowPanelResize(Sender: TObject);
     procedure ScrollBoxMouseWheel(Sender: TObject; Shift: TShiftState;
@@ -218,10 +262,16 @@ type
     FNotificationCount: Integer;
     function GetScaleFactor: Single;
     procedure RepaintAngularBtnWithMR(const AFamily: TStyledButtonFamily);
+    procedure SetAngularM3Scheme(const AParent: TWinControl;
+      const AFamily: TStyledButtonFamily; const ADark: Boolean);
     procedure BuildFamilyPreview(const AFamily: TStyledButtonFamily;
       const AAppearance: TStyledButtonAppearance;
       const AFlowPanel: TFlowPanel);
+    procedure ChangeTheme(const ADark: Boolean);
   protected
+  public
+    /// <summary>Page of the online documentation of the page of the demo which is open</summary>
+    function HelpPage: string;
   end;
 
 var
@@ -244,6 +294,14 @@ uses
   ;
 
 { TMainForm }
+
+function TfmStyledButtons.HelpPage: string;
+begin
+  if PageControl.ActivePage = tsAngularM3 then
+    Result := 'Angular-M3-Families'
+  else
+    Result := 'FamilyClassAppearanceDemo';
+end;
 
 procedure TfmStyledButtons.ButtonClick(Sender: TObject);
 const
@@ -272,7 +330,7 @@ begin
   BuildFamilyPreview(SVG_COLOR_FAMILY, COLOR_BTN_NORMAL, SvgColorNormalFlowPanel);
   BuildFamilyPreview(SVG_COLOR_FAMILY, COLOR_BTN_OUTLINE, SvgColorOutlineFlowPanel);
 
-  PageControl.ActivePage := tsBootStrap;
+  PageControl.ActivePage := tsClassic;
 end;
 
 procedure TfmStyledButtons.TestActionExecute(Sender: TObject);
@@ -317,7 +375,7 @@ end;
 
 procedure TfmStyledButtons.rgAngularDarkThemesClick(Sender: TObject);
 begin
-  TStyleManager.TrySetStyle('Windows10 SlateGray');
+  ChangeTheme(True);
   rgAngularLightThemes.ItemIndex := -1;
   case rgAngularDarkThemes.ItemIndex of
     0: //Pink & Blue-grey
@@ -368,7 +426,7 @@ end;
 
 procedure TfmStyledButtons.rgAngularLightThemesClick(Sender: TObject);
 begin
-  TStyleManager.TrySetStyle('Light');
+  ChangeTheme(False);
   rgAngularDarkThemes.ItemIndex := -1;
   case rgAngularLightThemes.ItemIndex of
     0: //Deep Purple & Amber
@@ -416,6 +474,64 @@ begin
   btn_FlatPrimary.AssignStyleTo(btn_FABTrash);
   btn_FlatAccent.AssignStyleTo(btn_FABBookmark);
   RepaintAngularBtnWithMR(ANGULAR_LIGHT_FAMILY);
+end;
+
+procedure TfmStyledButtons.SetAngularM3Scheme(const AParent: TWinControl;
+  const AFamily: TStyledButtonFamily; const ADark: Boolean);
+var
+  I, LIndex: Integer;
+  LControl: TControl;
+  LButton: TStyledButton;
+begin
+  for I := 0 to AParent.ControlCount - 1 do
+  begin
+    LControl := AParent.Controls[I];
+    if LControl is TStyledButton then
+    begin
+      LButton := TStyledButton(LControl);
+      LButton.StyleFamily := AFamily;
+      //Tag: index of the black icon (negative when the icon is white on the light scheme)
+      if LButton.Tag <> 0 then
+      begin
+        if (LButton.Tag > 0) = not ADark then
+          LIndex := Abs(LButton.Tag)
+        else
+          LIndex := Abs(LButton.Tag) - 1;
+        LButton.ImageIndex := LIndex;
+      end;
+    end
+    else if LControl is TWinControl then
+      SetAngularM3Scheme(TWinControl(LControl), AFamily, ADark);
+  end;
+end;
+
+procedure TfmStyledButtons.ChangeTheme(const ADark: Boolean);
+begin
+  //Switch dark or light theme for Angular examples
+  if ADark then
+  begin
+    if not TStyleManager.TrySetStyle('Windows10 SlateGray', False) then
+      TStyleManager.TrySetStyle('Aqua Graphite', False);
+  end
+  else
+  begin
+    TStyleManager.TrySetStyle('Light');
+  end;
+end;
+
+procedure TfmStyledButtons.rgAngularM3SchemeClick(Sender: TObject);
+var
+  LDark: Boolean;
+begin
+  LDark := rgAngularM3Scheme.ItemIndex = 1;
+  ChangeTheme(LDark);
+  //the themes of the Angular (Material 2) page are not active anymore
+  rgAngularLightThemes.ItemIndex := -1;
+  rgAngularDarkThemes.ItemIndex := -1;
+  if LDark then
+    SetAngularM3Scheme(tsAngularM3, ANGULAR_M3_DARK_FAMILY, True)
+  else
+    SetAngularM3Scheme(tsAngularM3, ANGULAR_M3_LIGHT_FAMILY, False);
 end;
 
 procedure TfmStyledButtons.ScrollBoxMouseWheel(Sender: TObject; Shift: TShiftState;
